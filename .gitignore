@@ -1,0 +1,31 @@
+# Squad: ignore generated logs
+.squad/orchestration-log/
+.squad/log/
+
+# Cache
+.cache/
+
+# Node
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+
+# Astro
+.astro/
+dist/
+coverage/
+
+# OS/editor
+.DS_Store
+*.log
+
+# Local env
+.env
+.env.*
+!.env.example
+
+# Generated assets (rebuildable)
+public/assets/avatars/
+public/assets/avatars-original/
+public/assets/covers/

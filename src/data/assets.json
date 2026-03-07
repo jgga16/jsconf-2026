@@ -1,0 +1,111 @@
+{
+  "assets": [
+    {
+      "talkId": "cafe-y-churros-de-bienvenida"
+    },
+    {
+      "talkId": "inicio-evento",
+      "avatarOriginal": "/assets/avatars/original/miguel-angel-duran.webp",
+      "avatar8bit": "/assets/avatars/miguel-angel-duran.png"
+    },
+    {
+      "talkId": "retro-javascript-rehaciendo-el-pasado-con-codigo-moderno",
+      "avatarOriginal": "/assets/avatars/original/carmen-ansio.webp",
+      "avatar8bit": "/assets/avatars/carmen-ansio.png",
+      "cover": "/assets/covers/retro-javascript-rehaciendo-el-pasado-con-codigo-moderno.png"
+    },
+    {
+      "talkId": "programando-como-rambo-del-vietnam-de-los-frameworks-a-la-web-nativa",
+      "avatarOriginal": "/assets/avatars/original/jaime-gomez-obregon.webp",
+      "avatar8bit": "/assets/avatars/jaime-gomez-obregon.png",
+      "cover": "/assets/covers/programando-como-rambo-del-vietnam-de-los-frameworks-a-la-web-nativa.png"
+    },
+    {
+      "talkId": "pair-programming-con-un-agente-como-construi-un-rpg-complejo-sin-perder-la-cabeza",
+      "avatarOriginal": "/assets/avatars/original/jorge-del-casar.webp",
+      "avatar8bit": "/assets/avatars/jorge-del-casar.png",
+      "cover": "/assets/covers/pair-programming-con-un-agente-como-construi-un-rpg-complejo-sin-perder-la-cabeza.png"
+    },
+    {
+      "talkId": "pausa-de-cafe"
+    },
+    {
+      "talkId": "inicio-bloque-sorteos"
+    },
+    {
+      "talkId": "programar-en-2026-the-human-in-the-loop",
+      "avatarOriginal": "/assets/avatars/original/javi-velasco.webp",
+      "avatar8bit": "/assets/avatars/javi-velasco.png",
+      "cover": "/assets/covers/programar-en-2026-the-human-in-the-loop.png"
+    },
+    {
+      "talkId": "tbd",
+      "avatarOriginal": "/assets/avatars/original/rita-kozlov.webp",
+      "avatar8bit": "/assets/avatars/rita-kozlov.png",
+      "cover": "/assets/covers/tbd.png"
+    },
+    {
+      "talkId": "javascript-en-la-era-de-los-agentes-del-codigo-al-agentic-devops",
+      "avatarOriginal": "/assets/avatars/original/gisela-torres.webp",
+      "avatar8bit": "/assets/avatars/gisela-torres.png",
+      "cover": "/assets/covers/javascript-en-la-era-de-los-agentes-del-codigo-al-agentic-devops.png"
+    },
+    {
+      "talkId": "sorteos-y-avisos"
+    },
+    {
+      "talkId": "a-comer"
+    },
+    {
+      "talkId": "volvemos-con-la-conferencia"
+    },
+    {
+      "talkId": "node-js-por-dentro-entendiendo-el-runtime-en-produccion",
+      "avatarOriginal": "/assets/avatars/original/estefany-aguilar.webp",
+      "avatar8bit": "/assets/avatars/estefany-aguilar.png",
+      "cover": "/assets/covers/node-js-por-dentro-entendiendo-el-runtime-en-produccion.png"
+    },
+    {
+      "talkId": "react-compiler-el-fin-de-los-renders-innecesarios",
+      "avatarOriginal": "/assets/avatars/original/ilda-neta.webp",
+      "avatar8bit": "/assets/avatars/ilda-neta.png",
+      "cover": "/assets/covers/react-compiler-el-fin-de-los-renders-innecesarios.png"
+    },
+    {
+      "talkId": "accesibilidad-web-guia-para-un-apocalipsis-zombie",
+      "avatarOriginal": "/assets/avatars/original/mia-salazar.webp",
+      "avatar8bit": "/assets/avatars/mia-salazar.png",
+      "cover": "/assets/covers/accesibilidad-web-guia-para-un-apocalipsis-zombie.png"
+    },
+    {
+      "talkId": "soluciones-de-ia-lecciones-y-aprendizajes",
+      "avatarOriginal": "/assets/avatars/original/anna-via.webp",
+      "avatar8bit": "/assets/avatars/anna-via.png",
+      "cover": "/assets/covers/soluciones-de-ia-lecciones-y-aprendizajes.png"
+    },
+    {
+      "talkId": "pausa-de-cafe-2"
+    },
+    {
+      "talkId": "inicio-bloque-sorteos-2"
+    },
+    {
+      "talkId": "framework-fatigue-como-elegir-y-abandonar-un-framework",
+      "avatarOriginal": "/assets/avatars/original/fernando-herrera.webp",
+      "avatar8bit": "/assets/avatars/fernando-herrera.png",
+      "cover": "/assets/covers/framework-fatigue-como-elegir-y-abandonar-un-framework.png"
+    },
+    {
+      "talkId": "web-ai-mas-alla-del-chat-algoritmos-geneticos-rl-y-transformers-js-en-el-edge",
+      "avatarOriginal": "/assets/avatars/original/erick-wendel.webp",
+      "avatar8bit": "/assets/avatars/erick-wendel.png",
+      "cover": "/assets/covers/web-ai-mas-alla-del-chat-algoritmos-geneticos-rl-y-transformers-js-en-el-edge.png"
+    },
+    {
+      "talkId": "despedida-del-evento"
+    },
+    {
+      "talkId": "coctel-de-despedida-networking"
+    }
+  ]
+}

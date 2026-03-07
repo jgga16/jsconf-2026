@@ -1,0 +1,386 @@
+{
+  "event": {
+    "name": "JSConf España 2026",
+    "date": "2026-03-14",
+    "venue": "La Nave, Madrid"
+  },
+  "talks": [
+    {
+      "id": "cafe-y-churros-de-bienvenida",
+      "title": "Café y Churros de Bienvenida",
+      "description": "",
+      "speakers": [],
+      "time": {
+        "start": "08:45",
+        "end": "09:30"
+      },
+      "type": "break",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "inicio-evento",
+      "title": "Inicio Evento",
+      "description": "Arrancamos motores. Empieza la conferencia de Programación Web más grande de España. ¡Prepárate para un día épico!",
+      "speakers": [
+        {
+          "name": "Miguel Ángel Durán",
+          "role": "Presentador",
+          "avatarUrl": "https://www.jsconf.es/img/midudev.webp"
+        }
+      ],
+      "time": {
+        "start": "09:30",
+        "end": "09:40"
+      },
+      "type": "ceremony",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "retro-javascript-rehaciendo-el-pasado-con-codigo-moderno",
+      "title": "Retro JavaScript: rehaciendo el pasado con código moderno",
+      "description": "Aprende las últimas novedades de JavaScript y CSS mientras reconstruyes recuerdos de tu pasado.",
+      "speakers": [
+        {
+          "name": "Carmen Ansio",
+          "role": "Designer Engineer @Stripe",
+          "avatarUrl": "https://www.jsconf.es/img/carmen-ansio.webp"
+        }
+      ],
+      "time": {
+        "start": "09:40",
+        "end": "10:20"
+      },
+      "type": "talk",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "programando-como-rambo-del-vietnam-de-los-frameworks-a-la-web-nativa",
+      "title": "Programando como Rambo: del Vietnam de los frameworks a la web nativa",
+      "description": "Muy pronto desvelaremos el misterio. Pero os adelantamos que Jaime viene con ganas de demostrate que no necesitas ningún framework para ser feliz.",
+      "speakers": [
+        {
+          "name": "Jaime Gómez-Obregón",
+          "role": "Ingeniero y activista",
+          "avatarUrl": "https://www.jsconf.es/img/jaime-gomez-obregon.webp"
+        }
+      ],
+      "time": {
+        "start": "10:20",
+        "end": "11:00"
+      },
+      "type": "talk",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "pair-programming-con-un-agente-como-construi-un-rpg-complejo-sin-perder-la-cabeza",
+      "title": "Pair Programming con un Agente: Cómo construí un RPG complejo sin perder la cabeza",
+      "description": "Cómo crear un RPG épico sin llorar en posición fetal. Spoiler: La IA hace el trabajo sucio mientras tú tomas café.",
+      "speakers": [
+        {
+          "name": "Jorge del Casar",
+          "role": "Head of Tech @ActioGlobal",
+          "avatarUrl": "https://www.jsconf.es/img/jorge-del-casar.webp"
+        }
+      ],
+      "time": {
+        "start": "11:00",
+        "end": "11:10"
+      },
+      "type": "talk",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "pausa-de-cafe",
+      "title": "Pausa de Café",
+      "description": "",
+      "speakers": [],
+      "time": {
+        "start": "11:10",
+        "end": "11:40"
+      },
+      "type": "break",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "inicio-bloque-sorteos",
+      "title": "Inicio Bloque + Sorteos",
+      "description": "Más sorteos. La última vez alguien se llevó un teclado mecánico y todavía está intentando configurar las luces RGB.",
+      "speakers": [],
+      "time": {
+        "start": "11:40",
+        "end": "11:45"
+      },
+      "type": "ceremony",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "programar-en-2026-the-human-in-the-loop",
+      "title": "Programar en 2026: the human-in-the-loop",
+      "description": "El secreto de un Tech Lead que lleva dos semanas sin escribir código: agentes de IA, automatizaciones, MCPS, y el futuro de la programación.",
+      "speakers": [
+        {
+          "name": "Javi Velasco",
+          "role": "Staff Software Engineer @Vercel",
+          "avatarUrl": "https://www.jsconf.es/img/javier-velasco.webp"
+        }
+      ],
+      "time": {
+        "start": "11:45",
+        "end": "12:25"
+      },
+      "type": "talk",
+      "language": "en",
+      "tags": []
+    },
+    {
+      "id": "tbd",
+      "title": "TBD",
+      "description": "Workers, integración de IA y el edge en el futuro de la web",
+      "speakers": [
+        {
+          "name": "Rita Kozlov",
+          "role": "VP Developers & AI @Cloudflare",
+          "avatarUrl": "https://www.jsconf.es/img/rita-kozlov.webp"
+        }
+      ],
+      "time": {
+        "start": "12:25",
+        "end": "13:00"
+      },
+      "type": "talk",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "javascript-en-la-era-de-los-agentes-del-codigo-al-agentic-devops",
+      "title": "JavaScript en la era de los agentes: del código al Agentic DevOps",
+      "description": "La IA ha pasado de autocompletar líneas a currar contigo. Cómo usar agentes e IA para montar apps con Astro, Vue o tu framework frontend favorito, y hacer que programar pueda ser (todavía más) divertido.",
+      "speakers": [
+        {
+          "name": "Gisela Torres",
+          "role": "Sr. Global Blackbelt @Microsoft",
+          "avatarUrl": "https://www.jsconf.es/img/gisela-torres.webp"
+        }
+      ],
+      "time": {
+        "start": "13:00",
+        "end": "13:35"
+      },
+      "type": "talk",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "sorteos-y-avisos",
+      "title": "Sorteos y avisos",
+      "description": "Avisos importantes antes de soltar a la multitud: No se permiten tácticas de judo para conseguir un peluche.",
+      "speakers": [],
+      "time": {
+        "start": "13:35",
+        "end": "13:45"
+      },
+      "type": "ceremony",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "a-comer",
+      "title": "¡A comer!",
+      "description": "",
+      "speakers": [],
+      "time": {
+        "start": "13:45",
+        "end": "15:00"
+      },
+      "type": "break",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "volvemos-con-la-conferencia",
+      "title": "¡Volvemos con la conferencia!",
+      "description": "Después de comer, volvemos a escuchar charlas.",
+      "speakers": [],
+      "time": {
+        "start": "15:00",
+        "end": "15:05"
+      },
+      "type": "ceremony",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "node-js-por-dentro-entendiendo-el-runtime-en-produccion",
+      "title": "Node.js por dentro: entendiendo el runtime en producción",
+      "description": "Node.js está en todas partes, pero ¿realmente entendemos lo que ocurre bajo el capó? Esta charla explora el runtime desde dentro: el event loop, la concurrencia y la gestión de memoria, y cómo estos mecanismos internos afectan al rendimiento y la escalabilidad en producción.",
+      "speakers": [
+        {
+          "name": "Estefany Aguilar",
+          "role": "Developer Relations @NodeSource",
+          "avatarUrl": "https://www.jsconf.es/img/estefany-aguilar.webp"
+        }
+      ],
+      "time": {
+        "start": "15:05",
+        "end": "15:30"
+      },
+      "type": "talk",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "react-compiler-el-fin-de-los-renders-innecesarios",
+      "title": "React Compiler: el fin de los renders innecesarios",
+      "description": "Adiós useMemo, useCallback y demás. Con el nuevo compilador de React, tu código será tan eficiente que hasta tu abuela notará la diferencia.",
+      "speakers": [
+        {
+          "name": "Ilda Neta",
+          "role": "Mobile Software Engineer @RockTheSport",
+          "avatarUrl": "https://www.jsconf.es/img/ildaneta.webp"
+        }
+      ],
+      "time": {
+        "start": "15:30",
+        "end": "15:40"
+      },
+      "type": "talk",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "accesibilidad-web-guia-para-un-apocalipsis-zombie",
+      "title": "Accesibilidad web: Guía para un apocalipsis zombie",
+      "description": "Si tu web no es accesible, ni los zombies podrán entrar... o quizás sea al revés. Aprende cómo sobrevivir al fin del mundo digital con una web para todos.",
+      "speakers": [
+        {
+          "name": "Mia Salazar",
+          "role": "Front-end Developer @Service Club",
+          "avatarUrl": "https://www.jsconf.es/img/mia-salazar.webp"
+        }
+      ],
+      "time": {
+        "start": "15:40",
+        "end": "15:50"
+      },
+      "type": "talk",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "soluciones-de-ia-lecciones-y-aprendizajes",
+      "title": "Soluciones de IA: Lecciones y aprendizajes",
+      "description": "Descubre cómo InfoJobs ha implementado IA de forma ética y responsable. Spoiler: ningún algoritmo se volvió Skynet en el proceso.",
+      "speakers": [
+        {
+          "name": "Anna Vía",
+          "role": "Head of Artificial Intelligence @InfoJobs",
+          "avatarUrl": "https://www.jsconf.es/img/anna-via.webp"
+        }
+      ],
+      "time": {
+        "start": "15:50",
+        "end": "16:00"
+      },
+      "type": "talk",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "pausa-de-cafe-2",
+      "title": "Pausa de Café",
+      "description": "",
+      "speakers": [],
+      "time": {
+        "start": "16:00",
+        "end": "16:30"
+      },
+      "type": "break",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "inicio-bloque-sorteos-2",
+      "title": "Inicio Bloque + Sorteos",
+      "description": "El tramo final. El café de hace una hora ya no hace efecto, pero la posibilidad de un regalo gratis te mantendrá alerta.",
+      "speakers": [],
+      "time": {
+        "start": "16:30",
+        "end": "16:40"
+      },
+      "type": "ceremony",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "framework-fatigue-como-elegir-y-abandonar-un-framework",
+      "title": "Framework Fatigue: ¿cómo elegir (y abandonar) un framework?",
+      "description": "¿Vamos a usar React para siempre? ¿Es el momento de cambiar? ¿Cuál es el siguiente framework que debemos usar?",
+      "speakers": [
+        {
+          "name": "Fernando Herrera",
+          "role": "Full Stack Educator @DevTalles",
+          "avatarUrl": "https://www.jsconf.es/img/fernando-herrera.webp"
+        }
+      ],
+      "time": {
+        "start": "16:40",
+        "end": "17:20"
+      },
+      "type": "talk",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "web-ai-mas-alla-del-chat-algoritmos-geneticos-rl-y-transformers-js-en-el-edge",
+      "title": "Web AI Más Allá del Chat: Algoritmos Genéticos, RL y Transformers.js en el Edge",
+      "description": "Construye funcionalidades de IA que corren directamente en el navegador y en Node.js, sin coste por request y con privacidad por defecto. RAG local con SQLite en WebAssembly para crear experiencias inteligentes, sin lock-in y listas para producción.",
+      "speakers": [
+        {
+          "name": "Erick Wendel",
+          "role": "Creador de Contenido y Emprendedor",
+          "avatarUrl": "https://www.jsconf.es/img/erick-wendel.webp"
+        }
+      ],
+      "time": {
+        "start": "17:20",
+        "end": "18:00"
+      },
+      "type": "talk",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "despedida-del-evento",
+      "title": "Despedida del evento",
+      "description": "Lágrimas de cocodrilo y aplausos finales. El momento de intercambiar LinkedIn antes de ir al cóctel.",
+      "speakers": [],
+      "time": {
+        "start": "18:00",
+        "end": "18:10"
+      },
+      "type": "ceremony",
+      "language": "es",
+      "tags": []
+    },
+    {
+      "id": "coctel-de-despedida-networking",
+      "title": "Coctel de despedida + networking",
+      "description": "",
+      "speakers": [],
+      "time": {
+        "start": "18:10",
+        "end": "20:00"
+      },
+      "type": "break",
+      "language": "es",
+      "tags": []
+    }
+  ]
+}

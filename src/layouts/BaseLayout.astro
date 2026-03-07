@@ -1,0 +1,40 @@
+---
+import '../styles/global.css';
+
+type Props = {
+  title: string;
+  description?: string;
+};
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description ? <meta name="description" content={description} /> : null}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="crt">
+    <header class="site-header container">
+      <h1 class="site-title neon" data-text="Sopla el Cartucho">Sopla el Cartucho</h1>
+      <p class="site-subtitle">
+        JSConf España 2026 agenda, reimaginada como cartuchos retro.
+      </p>
+    </header>
+
+    <main class="container">
+      <slot />
+    </main>
+  </body>
+</html>

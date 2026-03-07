@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CartridgeCard from '../components/CartridgeCard.astro';
+import { talksWithAssets, event } from '../lib/talks';
+
+// Render presentations as cartridges; skip non-content slots.
+const talks = talksWithAssets.filter((t) => t.type !== 'break' && t.type !== 'ceremony');
+---
+
+<BaseLayout
+  title={`${event.name} — Sopla el Cartucho`}
+  description={`${event.name} (${event.date}) — ${event.venue}.`}
+>
+  <section aria-label="Talks">
+    <div class="grid">
+      {talks.map((talk) => (
+        <CartridgeCard talk={talk} />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

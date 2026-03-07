@@ -1,0 +1,8 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "types": ["astro/client"]
+  },
+  "include": ["src"],
+  "exclude": [".squad", "dist", "node_modules", ".astro", "squad.config.ts", "scripts-*.mjs", "test"]
+}
