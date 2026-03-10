@@ -1,92 +1,503 @@
 ---
+/*
+ * Game Boy cartridge design based on work by Van Huynh
+ * https://codepen.io/worksbyvan/pen/MoxroE
+ * MIT License — Copyright (c) Van Huynh
+ */
 import type { TalkWithAssets } from '../types/talk';
-import { formatTimeRange } from '../lib/talks';
 
 type Props = {
-  talk: TalkWithAssets;
+  talk?: TalkWithAssets;
+  locked?: boolean;
+  lockedLabel?: string;
 };
 
-const { talk } = Astro.props;
-const speaker = talk.speakers?.[0];
+const { talk, locked = false, lockedLabel = 'PRÓXIMAMENTE...' } = Astro.props;
+const speaker = talk?.speakers?.[0];
 
-const time = formatTimeRange(talk.time.start, talk.time.end);
+const avatarSrc = talk?.assets?.avatar8bit ?? '/placeholders/avatar.svg';
 
-const coverSrc = talk.assets?.cover ?? '/placeholders/cover.svg';
-const avatarSrc = talk.assets?.avatar8bit ?? '/placeholders/avatar.svg';
-
-const roomLabel = talk.room ? `• ${talk.room}` : '';
-const speakerLine = [speaker?.name, speaker?.role].filter(Boolean).join(' — ');
+const roleParts = (speaker?.role || '').split('@');
+const roleLabel = roleParts[0].trim();
+const company = roleParts[1]?.trim() ?? '';
 ---
 
-<article class="cartridge pixel-border">
-  <div class="cover">
-    <img class="cover-img" src={coverSrc} alt="" loading="lazy" decoding="async" />
-    <img class="avatar" src={avatarSrc} alt={speaker?.name ? `${speaker.name} avatar` : 'Speaker avatar'} loading="lazy" decoding="async" />
-  </div>
+<article class={locked ? 'card-wrap is-locked' : 'card-wrap'}>
+  <div class="cartridge">
+    <div class="case">
 
-  <div class="body">
-    <p class="meta"><span class="neon-cyan">{time}</span> {roomLabel}</p>
+      <!-- Front face -->
+      <div class="front">
+        <div class="base tall"></div>
+        <div class="base wide"></div>
+        <div class="linebase"></div>
+        <div class="line one"></div>
+        <div class="line two"></div>
+        <div class="line three"></div>
+        <div class="line four"></div>
+        <div class="leftindent"></div>
+        <div class="rightindent"></div>
+        <div class="oval"></div>
+        <div class="label">
+          {locked ? (
+            <div class="lock-content">
+              <p class="lock-label">{lockedLabel}</p>
+              <span class="lock-icon" aria-hidden="true">🔒</span>
+              <p class="lock-sub">¡BLOQUEADO!</p>
+            </div>
+          ) : (
+            <>
+              <div class="label-top">
+                <h2 class="speaker-name">{speaker?.name || 'TBA'}</h2>
+                <img
+                  class="avatar"
+                  src={avatarSrc}
+                  alt={speaker?.name ?? ''}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <p class="talk-title">{talk?.title}</p>
+              <div class="label-bottom">
+                <span class="speaker-role">
+                  {roleLabel}{company ? ` · ${company}` : ''}
+                </span>
+                <span class="rev">REV.1</span>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
 
-    <h2 class="title">{talk.title}</h2>
+      <!-- Back face -->
+      <div class="back">
+        <div class="base tall"></div>
+        <div class="base wide"></div>
+        <div class="line one"></div>
+        <div class="line two"></div>
+        <div class="line three"></div>
+        <div class="line four"></div>
+      </div>
 
-    <p class="speaker">{speakerLine || 'TBA'}</p>
+      <!-- Right side -->
+      <div class="rightside">
+        <div class="top"></div>
+        <div class="bottom"></div>
+        <div class="line one"></div>
+        <div class="ceiling one"></div>
+        <div class="floor one"></div>
+        <div class="line two"></div>
+        <div class="ceiling two"></div>
+        <div class="floor two"></div>
+        <div class="line three"></div>
+        <div class="ceiling three"></div>
+        <div class="floor three"></div>
+        <div class="line four"></div>
+        <div class="ceiling four"></div>
+        <div class="floor four"></div>
+      </div>
+
+      <!-- Left side -->
+      <div class="leftside">
+        <div class="bottom"></div>
+        <div class="line one"></div>
+        <div class="ceiling one"></div>
+        <div class="floor one"></div>
+        <div class="line two"></div>
+        <div class="ceiling two"></div>
+        <div class="floor two"></div>
+        <div class="line three"></div>
+        <div class="ceiling three"></div>
+        <div class="floor three"></div>
+        <div class="line four"></div>
+        <div class="ceiling four"></div>
+        <div class="floor four"></div>
+      </div>
+
+      <!-- Top side -->
+      <div class="topside">
+        <div class="left"></div>
+        <div class="right"></div>
+      </div>
+
+      <!-- Bottom side -->
+      <div class="bottomside">
+        <div class="side"></div>
+      </div>
+
+    </div>
   </div>
 </article>
 
 <style>
+  /* ── Dimensions & palette (scoped to component) ───── */
+  .card-wrap {
+    --cw: 196px;
+    --ch: 225px;   /* cw × 1.15 */
+    --cd: 20px;    /* cw × 0.1  */
+    --cd2: 10px;   /* cd / 2    */
+
+    --c-base:    #a7a9ac;
+    --c-dark:    #939598;
+    --c-darker:  #828487;
+    --c-label-bg: #1a2640;
+  }
+
+  .is-locked {
+    --c-base:    #727477;
+    --c-dark:    #5e6062;
+    --c-darker:  #505254;
+    --c-label-bg: #2e2a38;
+  }
+
+  /* ── Cell wrapper ─────────────────────────────────── */
+  .card-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    padding: 24px 36px;   /* room for 3D overflow + tilt */
+  }
+
+  /* ── Cartridge container ──────────────────────────── */
   .cartridge {
-    background: linear-gradient(180deg, var(--panel), var(--panel2));
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
     position: relative;
+    display: inline-block;
+    width: var(--cw);
+    height: var(--ch);
+    perspective: 900px;
+    transform-style: preserve-3d;
+    flex-shrink: 0;
   }
 
-  .cover {
-    position: relative;
-    aspect-ratio: 3 / 2;
-    background: #0f0f0f;
-  }
-
-  .cover-img {
-    width: 100%;
+  .case {
+    position: absolute;
     height: 100%;
-    object-fit: cover;
+    width: 100%;
+    transform-style: preserve-3d;
+    /* Show front + right edge by default */
+    transform: rotateY(-22deg) rotateX(10deg);
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .card-wrap:hover .case {
+    transform: rotateY(-8deg) rotateX(4deg);
+  }
+
+  /* ── Front / Back ─────────────────────────────────── */
+  .front,
+  .back {
     display: block;
-    filter: contrast(1.05) saturate(1.05);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+  }
+
+  .front .base,
+  .back .base {
+    background-color: var(--c-base);
+    position: absolute;
+  }
+
+  .front .tall,
+  .back .tall {
+    height: 50%;
+    width: 90%;
+    top: 0;
+    left: 0;
+  }
+
+  .front .wide,
+  .back .wide {
+    height: 95%;
+    width: 100%;
+    bottom: 0;
+    right: 0;
+  }
+
+  /* Horizontal stripe with grooves */
+  .front .linebase {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 100%;
+    height: 15%;
+    top: 9%;
+    left: 0;
+  }
+
+  .front .line,
+  .back .line {
+    position: absolute;
+    background-color: var(--c-base);
+    width: 104%;
+    left: -2%;
+    height: calc(15% / 9);
+  }
+
+  /* Vertical indent rails */
+  .front .leftindent,
+  .front .rightindent {
+    position: absolute;
+    height: 65%;
+    width: 2%;
+    bottom: 0;
+    background-color: var(--c-dark);
+  }
+
+  .front .rightindent {
+    right: 0;
+  }
+
+  /* Top oval cutout */
+  .front .oval {
+    position: absolute;
+    width: 75%;
+    height: 15%;
+    background-color: var(--c-dark);
+    border: calc(var(--cw) / 50) solid var(--c-base);
+    border-radius: 9999px;
+    left: calc(12.5% - 2%);
+    top: 7%;
+  }
+
+  /* ── Label (speaker content area) ─────────────────── */
+  .front .label {
+    position: absolute;
+    height: calc(var(--cw) * 0.75);
+    width: 70%;
+    bottom: 7%;
+    left: calc(15% - 1%);
+    border: calc(var(--cw) / 100) solid rgba(0, 0, 0, 0.4);
+    border-radius: calc(var(--cw) / 50);
+    overflow: hidden;
+    padding: 8px;
+    background:
+      linear-gradient(160deg, #22375e 0%, #0f1a30 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .label-top {
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+  }
+
+  .speaker-name {
+    flex: 1;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.48rem;
+    line-height: 1.55;
+    color: #f5d060;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
+    word-break: break-word;
   }
 
   .avatar {
-    position: absolute;
-    left: 12px;
-    bottom: 12px;
-    width: 64px;
-    height: 64px;
-    border-radius: 8px;
-    background: #000;
-    border: 3px solid rgba(0, 255, 255, 0.35);
-    box-shadow: 0 0 18px rgba(0, 255, 255, 0.25);
+    width: 50px;
+    height: 50px;
+    display: block;
+    flex-shrink: 0;
+    object-fit: cover;
     image-rendering: pixelated;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    background: #060e1e;
   }
 
-  .body {
-    padding: 14px 14px 18px;
-  }
-
-  .meta {
-    margin: 0 0 10px;
-    color: rgba(0, 255, 0, 0.85);
-  }
-
-  .title {
-    margin: 0 0 10px;
-    font-family: var(--font-display);
-    font-size: 14px;
-    line-height: 1.4;
-  }
-
-  .speaker {
+  .talk-title {
+    flex: 1;
     margin: 0;
-    color: rgba(0, 255, 255, 0.85);
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    line-height: 1.25;
+    color: #a8c8e8;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  .label-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 4px;
+    margin-top: auto;
+  }
+
+  .speaker-role {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    color: #6a8aaa;
+    line-height: 1.1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .rev {
+    font-family: var(--font-display);
+    font-size: 0.42rem;
+    background: #1e6e3a;
+    color: #c8f0b0;
+    padding: 2px 6px;
+    border: 1px solid #0f3a1e;
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* ── Locked label content ─────────────────────────── */
+  .lock-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .lock-label {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.42rem;
+    color: #a090c0;
+    line-height: 1.6;
+    letter-spacing: 0.04em;
+  }
+
+  .lock-icon {
+    font-size: 1.5rem;
+    filter: grayscale(0.4);
+  }
+
+  .lock-sub {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.42rem;
+    color: #786898;
+  }
+
+  /* ── translateZ for front/back ────────────────────── */
+  .front {
+    transform: translateZ(var(--cd2));
+  }
+
+  .back {
+    transform: translateZ(calc(-1 * var(--cd2)));
+  }
+
+  /* ── Groove line positions (shared by front, back, sides) */
+  .one   { top: calc(9% + (15% / 9) * 1); }
+  .two   { top: calc(9% + (15% / 9) * 3); }
+  .three { top: calc(9% + (15% / 9) * 5); }
+  .four  { top: calc(9% + (15% / 9) * 7); }
+
+  /* ── Right / Left sides ───────────────────────────── */
+  .rightside,
+  .leftside {
+    position: absolute;
+    width: var(--cd);
+    height: 100%;
+    bottom: 0;
+    transform-style: preserve-3d;
+    transform: rotateY(90deg);
+  }
+
+  .rightside {
+    right: calc(-1 * var(--cd2));
+  }
+
+  .leftside {
+    left: calc(-1 * var(--cd2));
+  }
+
+  .rightside .top {
+    position: absolute;
+    background-color: var(--c-darker);
+    width: 100%;
+    height: 5%;
+    transform: translateZ(calc(-1 * var(--cd)));
+  }
+
+  .rightside .bottom,
+  .leftside .bottom {
+    position: absolute;
+    bottom: 0;
+    background-color: var(--c-dark);
+    width: 100%;
+  }
+
+  .rightside .bottom { height: 95%; }
+  .leftside  .bottom { height: 100%; }
+
+  .rightside .line,
+  .leftside .line {
+    position: absolute;
+    background-color: var(--c-darker);
+    height: calc(15% / 9);
+    width: 100%;
+  }
+
+  .rightside .line { transform: translateZ(calc(var(--cw) * 0.02)); }
+  .leftside  .line { transform: translateZ(calc(-1 * var(--cw) * 0.02)); }
+
+  .rightside .floor,
+  .rightside .ceiling,
+  .leftside .floor,
+  .leftside .ceiling {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 100%;
+    height: calc(var(--cw) * 0.04);
+    transform: rotateX(90deg);
+  }
+
+  .rightside .ceiling,
+  .leftside .ceiling {
+    transform: translateY(calc(-1 * var(--ch) * 0.15 / 9)) rotateX(90deg);
+  }
+
+  /* ── Top side ─────────────────────────────────────── */
+  .topside {
+    position: absolute;
+    width: 100%;
+    height: var(--cd);
+    top: calc(-1 * var(--cd2));
+    transform: rotateX(90deg);
+    transform-style: preserve-3d;
+  }
+
+  .topside .left {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 90%;
+    height: 100%;
+  }
+
+  .topside .right {
+    position: absolute;
+    background-color: var(--c-darker);
+    width: 10%;
+    height: 100%;
+    right: 0;
+    transform: translateZ(calc(-1 * var(--ch) * 0.05));
+  }
+
+  /* ── Bottom side (connector edge) ────────────────── */
+  .bottomside {
+    position: absolute;
+    background-color: #1e1e1e;
+    bottom: calc(-1 * var(--cd2));
+    height: calc(var(--cd) / 2);
+    width: calc(var(--cw) - var(--cd2));
+    transform: rotateX(90deg);
+    border: calc(var(--cw) * 0.025) solid var(--c-darker);
   }
 </style>
