@@ -197,6 +197,15 @@ main {
   font-size: 0.95rem;
 }
 
+.address-bar a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.address-bar a:hover {
+  text-decoration: underline;
+}
+
 /* ───────────── Hero section ───────────── */
 
 .hero {
