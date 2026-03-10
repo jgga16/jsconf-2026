@@ -5,6 +5,7 @@ on:
 
 permissions:
   issues: read
+  contents: read
 
 safe-outputs:
   update-issue:
