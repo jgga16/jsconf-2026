@@ -1,1 +1,3 @@
 Cada vez que te pida implementar algo tienes que hacer uso de GitHub Flow. Esto significa que debes crear una nueva rama para cada tarea, hacer commits claros y descriptivos, y luego abrir un pull request para que pueda revisar tu código antes de fusionarlo a la rama principal. Asegúrate de seguir esta práctica para mantener un historial de cambios limpio y facilitar la colaboración en el proyecto.
+
+Cada vez que te pida implementar algo usa el navegador integrado para mostrar el resultado al usuario. Comprueba si la aplicación se está ejecutando y en el caso de no ser así ejecutala primeramente. Solo después ponte a implementar la tarea.

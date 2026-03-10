@@ -18,10 +18,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const rawHeroAvatar = heroTalk?.assets?.avatar8bit ?? '/placeholders/avatar.svg';
 const heroAvatar = rawHeroAvatar.startsWith('/') ? `${base}${rawHeroAvatar}` : rawHeroAvatar;
 
-// Card rows: show all talks except hero
-const cardTalks = talks.filter((_, i) => i !== heroIndex);
-const firstRow = cardTalks.slice(0, 3);
-const remainingTalks = cardTalks.slice(3);
+// Card rows: show ALL talks including hero (hero will also be a cartridge)
+const firstRow = talks.slice(0, 3);
+const remainingTalks = talks.slice(3);
+
+const qrCodeSrc = `${base}/assets/qr-code.png`;
 ---
 
 <BaseLayout
@@ -63,9 +64,15 @@ const remainingTalks = cardTalks.slice(3);
         </div>
 
         <div class="hero-right">
-          <div class="hero-title">
-            <h1 id="site-title">Sopla el cartucho</h1>
-            <p class="event-name">{event.name}</p>
+          <div class="hero-title-row">
+            <div class="hero-title">
+              <h1 id="site-title">Sopla el cartucho</h1>
+              <p class="event-name">{event.name}</p>
+            </div>
+            <div class="qr-code-wrapper" title="Escanea para ver en móvil">
+              <img src={qrCodeSrc} alt="QR Code - Escanea para ver en móvil" class="qr-code" />
+              <span class="qr-label">📱 ESCANEA</span>
+            </div>
           </div>
 
           <div class="hero-cards" id="speakers">
