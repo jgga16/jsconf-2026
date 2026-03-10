@@ -10,7 +10,9 @@ const talks = talksWithAssets.filter((t) => t.type !== 'break' && t.type !== 'ce
 // Hero speaker shown in the console monitor
 const heroIndex = 5;
 const heroTalk = talks[heroIndex] ?? talks[0];
-const heroAvatar = heroTalk?.assets?.avatar8bit ?? '/placeholders/avatar.svg';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const rawHeroAvatar = heroTalk?.assets?.avatar8bit ?? '/placeholders/avatar.svg';
+const heroAvatar = rawHeroAvatar.startsWith('/') ? `${base}${rawHeroAvatar}` : rawHeroAvatar;
 
 // Card rows matching the mockup layout: 3 + 4 + 4 locked
 const cardTalks = talks.filter((_, i) => i !== heroIndex);

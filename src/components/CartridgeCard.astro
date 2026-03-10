@@ -15,7 +15,9 @@ type Props = {
 const { talk, locked = false, lockedLabel = 'PRÓXIMAMENTE...' } = Astro.props;
 const speaker = talk?.speakers?.[0];
 
-const avatarSrc = talk?.assets?.avatar8bit ?? '/placeholders/avatar.svg';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const rawAvatar = talk?.assets?.avatar8bit ?? '/placeholders/avatar.svg';
+const avatarSrc = rawAvatar.startsWith('/') ? `${base}${rawAvatar}` : rawAvatar;
 
 const roleParts = (speaker?.role || '').split('@');
 const roleLabel = roleParts[0].trim();
