@@ -4,6 +4,7 @@
  * https://codepen.io/worksbyvan/pen/MoxroE
  * MIT License — Copyright (c) Van Huynh
  */
+import { formatTimeRange } from '../lib/talks';
 import type { TalkWithAssets } from '../types/talk';
 
 type Props = {
@@ -23,15 +24,67 @@ const roleParts = (speaker?.role || '').split('@');
 const roleLabel = roleParts[0].trim();
 const company = roleParts[1]?.trim() ?? '';
 const timeLabel = talk?.time?.start ?? '';
+const timeRange = talk?.time ? formatTimeRange(talk.time.start, talk.time.end) : '';
+
+const isBreak = talk?.type === 'break';
+const breakType = talk?.breakCategory ?? 'coffee';
+const breakPalettes: Record<
+  string,
+  { labelGradient: string; accent: string; revBg: string; revText: string; effect: string; icon: 'coffee' | 'croissant' | 'heart' | 'potion'; tag: string }
+> = {
+  coffee: {
+    labelGradient: 'linear-gradient(160deg, #0d2816 0%, #142c1e 100%)',
+    accent: '#c8f5d4',
+    revBg: '#1e6e3a',
+    revText: '#d0f7c2',
+    effect: 'CAFFEINE BOOST',
+    icon: 'coffee',
+    tag: 'COFFEE',
+  },
+  breakfast: {
+    labelGradient: 'linear-gradient(160deg, #2e1a04 0%, #3c2408 100%)',
+    accent: '#ffe7b3',
+    revBg: '#b57700',
+    revText: '#fff2c8',
+    effect: 'SUNRISE START',
+    icon: 'croissant',
+    tag: 'BREAKFAST',
+  },
+  lunch: {
+    labelGradient: 'linear-gradient(160deg, #2f0b12 0%, #3e0f17 100%)',
+    accent: '#ffd5d9',
+    revBg: '#8e1b2f',
+    revText: '#ffdbe2',
+    effect: 'FULL RESTORE',
+    icon: 'heart',
+    tag: 'LUNCH',
+  },
+  networking: {
+    labelGradient: 'linear-gradient(160deg, #1c0f3c 0%, #24114f 100%)',
+    accent: '#ead8ff',
+    revBg: '#5b2bc7',
+    revText: '#efe3ff',
+    effect: 'SOCIAL XP UP',
+    icon: 'potion',
+    tag: 'SOCIAL',
+  },
+};
+
+const breakTheme = isBreak ? breakPalettes[breakType] ?? breakPalettes.coffee : null;
 ---
 
 <article 
-  class={locked ? 'card-wrap is-locked' : 'card-wrap'}
+  class={`card-wrap${locked ? ' is-locked' : ''}${isBreak ? ' is-break' : ''}`}
   data-talk-id={talk?.id}
   data-avatar={avatarSrc}
   data-speaker={speaker?.name || 'TBA'}
   data-time-start={talk?.time?.start}
   data-time-end={talk?.time?.end}
+  style={
+    isBreak && breakTheme
+      ? `--label-gradient:${breakTheme.labelGradient};--accent:${breakTheme.accent};--rev-bg:${breakTheme.revBg};--rev-text:${breakTheme.revText};`
+      : undefined
+  }
 >
   <div class="cartridge">
     <div class="case">
@@ -55,6 +108,69 @@ const timeLabel = talk?.time?.start ?? '';
               <span class="lock-icon" aria-hidden="true">🔒</span>
               <p class="lock-sub">¡BLOQUEADO!</p>
             </div>
+          ) : isBreak && breakTheme ? (
+            <>
+              <div class="label-top break">
+                <div class={`break-icon ${breakTheme.icon}`} aria-hidden="true">
+                  {breakTheme.icon === 'coffee' ? (
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                      <rect x="4" y="4" width="1" height="2" fill="#b7f5c2" />
+                      <rect x="6" y="3" width="1" height="3" fill="#b7f5c2" />
+                      <rect x="8" y="4" width="1" height="2" fill="#b7f5c2" />
+                      <rect x="4" y="6" width="7" height="7" fill="#f7f1e8" />
+                      <rect x="3" y="7" width="9" height="5" fill="#f7f1e8" />
+                      <rect x="11" y="7" width="2" height="3" fill="#f7f1e8" />
+                      <rect x="12" y="8" width="1" height="1" fill="#cfb69b" />
+                      <rect x="4" y="10" width="6" height="2" fill="#c1926a" />
+                      <rect x="4" y="12" width="7" height="1" fill="#8a6645" />
+                      <rect x="3" y="6" width="9" height="1" fill="#d8c7b5" />
+                      <rect x="5" y="11" width="1" height="1" fill="#ffffff" />
+                    </svg>
+                  ) : breakTheme.icon === 'croissant' ? (
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                      <rect x="5" y="6" width="6" height="4" fill="#f6d287" />
+                      <rect x="4" y="7" width="8" height="2" fill="#f9e2ac" />
+                      <rect x="3" y="8" width="10" height="1" fill="#f9c86f" />
+                      <rect x="4" y="9" width="2" height="2" fill="#e4a64d" />
+                      <rect x="10" y="9" width="2" height="2" fill="#e4a64d" />
+                      <rect x="6" y="5" width="1" height="1" fill="#fef4d4" />
+                      <rect x="9" y="5" width="1" height="1" fill="#fef4d4" />
+                      <rect x="6" y="10" width="4" height="1" fill="#c47a26" />
+                    </svg>
+                  ) : breakTheme.icon === 'heart' ? (
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                      <rect x="4" y="5" width="3" height="3" fill="#ff9fb3" />
+                      <rect x="9" y="5" width="3" height="3" fill="#ff9fb3" />
+                      <rect x="4" y="8" width="8" height="3" fill="#ff2f4d" />
+                      <rect x="5" y="11" width="6" height="2" fill="#d01632" />
+                      <rect x="6" y="13" width="4" height="1" fill="#8b0e21" />
+                      <rect x="5" y="6" width="1" height="1" fill="#ffd6df" />
+                      <rect x="10" y="6" width="1" height="1" fill="#ffd6df" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                      <rect x="7" y="1" width="2" height="3" fill="#d0b5ff" />
+                      <rect x="6" y="4" width="4" height="1" fill="#c4a1ff" />
+                      <rect x="6" y="5" width="4" height="2" fill="#6f3ae3" />
+                      <rect x="5" y="7" width="6" height="6" fill="#9052ff" />
+                      <rect x="4" y="8" width="8" height="4" fill="#b27bff" />
+                      <rect x="4" y="12" width="8" height="2" fill="#4c1dbd" />
+                      <rect x="5" y="10" width="2" height="1" fill="#d7c9ff" />
+                      <rect x="9" y="11" width="1" height="1" fill="#eadcff" />
+                    </svg>
+                  )}
+                </div>
+                <div class="break-meta">
+                  <p class="break-type">POWER-UP</p>
+                  <p class="break-time">{timeRange}</p>
+                </div>
+              </div>
+              <p class="talk-title">{talk?.title}</p>
+              <div class="label-bottom break">
+                <span class="break-effect">{breakTheme.effect}</span>
+                <span class="rev">{breakTheme.tag}</span>
+              </div>
+            </>
           ) : (
             <>
               <div class="label-top">
@@ -282,8 +398,7 @@ const timeLabel = talk?.time?.start ?? '';
     border-radius: calc(var(--cw) / 50);
     overflow: hidden;
     padding: 8px;
-    background:
-      linear-gradient(160deg, #22375e 0%, #0f1a30 100%);
+    background: var(--label-gradient, linear-gradient(160deg, #22375e 0%, #0f1a30 100%));
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -353,13 +468,68 @@ const timeLabel = talk?.time?.start ?? '';
   .rev {
     font-family: var(--font-display);
     font-size: 0.42rem;
-    background: #1e6e3a;
-    color: #c8f0b0;
+    background: var(--rev-bg, #1e6e3a);
+    color: var(--rev-text, #c8f0b0);
     padding: 2px 6px;
     border: 1px solid #0f3a1e;
     box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
     flex-shrink: 0;
     white-space: nowrap;
+  }
+  .label-top.break {
+    align-items: center;
+    gap: 10px;
+  }
+
+  .break-icon {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(0, 0, 0, 0.35);
+    border-radius: 8px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .break-icon svg {
+    width: 44px;
+    height: 44px;
+    image-rendering: pixelated;
+  }
+
+  .break-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .break-type {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    color: var(--accent, #f5d060);
+  }
+
+  .break-time {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: #cddcf7;
+  }
+
+  .label-bottom.break {
+    margin-top: auto;
+    align-items: center;
+  }
+
+  .break-effect {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    color: var(--accent, #f5d060);
+    letter-spacing: 0.06em;
   }
 
   /* ── Locked label content ─────────────────────────── */

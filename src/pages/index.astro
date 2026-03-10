@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CartridgeCard from '../components/CartridgeCard.astro';
-import BreakCartridge from '../components/BreakCartridge.astro';
 import GameBoy from '../components/GameBoy.astro';
 import { talksWithAssets, event } from '../lib/talks';
 
@@ -81,11 +80,7 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
 
           <div class="hero-cards" id="speakers">
             {firstRow.map((talk) => (
-              talk.type === 'break' ? (
-                <BreakCartridge talk={talk} />
-              ) : (
-                <CartridgeCard talk={talk} />
-              )
+              <CartridgeCard talk={talk} />
             ))}
           </div>
         </div>
@@ -95,11 +90,7 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
       <section class="speakers-panel" aria-label="More speakers">
         <div class="cartridge-grid">
           {remainingTalks.map((talk) => (
-            talk.type === 'break' ? (
-              <BreakCartridge talk={talk} />
-            ) : (
-              <CartridgeCard talk={talk} />
-            )
+            <CartridgeCard talk={talk} />
           ))}
         </div>
       </section>
