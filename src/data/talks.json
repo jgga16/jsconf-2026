@@ -15,6 +15,7 @@
         "end": "09:30"
       },
       "type": "break",
+      "breakCategory": "breakfast",
       "language": "es",
       "tags": []
     },
@@ -104,6 +105,7 @@
         "end": "11:40"
       },
       "type": "break",
+      "breakCategory": "coffee",
       "language": "es",
       "tags": []
     },
@@ -200,6 +202,7 @@
         "end": "15:00"
       },
       "type": "break",
+      "breakCategory": "lunch",
       "language": "es",
       "tags": []
     },
@@ -302,6 +305,7 @@
         "end": "16:30"
       },
       "type": "break",
+      "breakCategory": "coffee",
       "language": "es",
       "tags": []
     },
@@ -379,6 +383,7 @@
         "end": "20:00"
       },
       "type": "break",
+      "breakCategory": "networking",
       "language": "es",
       "tags": []
     }

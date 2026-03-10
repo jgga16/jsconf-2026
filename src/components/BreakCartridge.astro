@@ -1,0 +1,525 @@
+---
+import type { TalkWithAssets } from '../types/talk';
+import type { BreakCategory } from '../types/talk';
+
+type Props = {
+  talk: TalkWithAssets;
+};
+
+const { talk } = Astro.props;
+const category = (talk as any).breakCategory as BreakCategory | undefined;
+const timeLabel = talk.time?.start ?? '';
+const timeEnd = talk.time?.end ?? '';
+
+const categoryConfig: Record<BreakCategory, { label: string; colorClass: string }> = {
+  coffee:     { label: '☕ POWER UP!', colorClass: 'cat-coffee' },
+  breakfast:  { label: '🥐 ENERGY!',  colorClass: 'cat-breakfast' },
+  lunch:      { label: '❤️ FULL HP!', colorClass: 'cat-lunch' },
+  networking: { label: '⭐ BONUS!',   colorClass: 'cat-networking' },
+};
+
+const config = categoryConfig[category ?? 'coffee'];
+---
+
+<article class={`break-wrap ${config.colorClass}`}>
+  <div class="break-cartridge">
+    <div class="break-case">
+
+      <!-- Front face -->
+      <div class="front">
+        <div class="base tall"></div>
+        <div class="base wide"></div>
+        <div class="linebase"></div>
+        <div class="line one"></div>
+        <div class="line two"></div>
+        <div class="line three"></div>
+        <div class="line four"></div>
+        <div class="leftindent"></div>
+        <div class="rightindent"></div>
+        <div class="oval"></div>
+        <div class="label">
+          <div class="break-icon" aria-hidden="true">
+            {category === 'coffee' && (
+              <svg viewBox="0 0 16 16" class="pixel-icon">
+                <rect x="3" y="3" width="2" height="2" fill="currentColor"/>
+                <rect x="7" y="2" width="2" height="2" fill="currentColor"/>
+                <rect x="5" y="4" width="2" height="2" fill="currentColor"/>
+                <rect x="2" y="6" width="10" height="2" fill="currentColor"/>
+                <rect x="2" y="8" width="10" height="4" fill="currentColor" opacity="0.85"/>
+                <rect x="12" y="7" width="3" height="3" fill="currentColor" opacity="0.6"/>
+                <rect x="13" y="7" width="2" height="1" fill="currentColor" opacity="0.6"/>
+                <rect x="3" y="12" width="8" height="1" fill="currentColor" opacity="0.7"/>
+                <rect x="4" y="13" width="6" height="1" fill="currentColor" opacity="0.5"/>
+                <rect x="1" y="14" width="12" height="1" fill="currentColor" opacity="0.4"/>
+              </svg>
+            )}
+            {category === 'breakfast' && (
+              <svg viewBox="0 0 16 16" class="pixel-icon">
+                <rect x="6" y="1" width="4" height="2" fill="currentColor"/>
+                <rect x="4" y="3" width="8" height="2" fill="currentColor"/>
+                <rect x="3" y="5" width="10" height="3" fill="currentColor" opacity="0.85"/>
+                <rect x="4" y="8" width="8" height="2" fill="currentColor" opacity="0.7"/>
+                <rect x="5" y="10" width="6" height="2" fill="currentColor" opacity="0.6"/>
+                <rect x="3" y="12" width="2" height="3" fill="currentColor" opacity="0.5"/>
+                <rect x="11" y="12" width="2" height="3" fill="currentColor" opacity="0.5"/>
+                <rect x="2" y="14" width="12" height="1" fill="currentColor" opacity="0.4"/>
+              </svg>
+            )}
+            {category === 'lunch' && (
+              <svg viewBox="0 0 16 16" class="pixel-icon">
+                <rect x="7" y="1" width="2" height="2" fill="currentColor"/>
+                <rect x="6" y="3" width="4" height="2" fill="currentColor"/>
+                <rect x="5" y="5" width="6" height="2" fill="currentColor"/>
+                <rect x="4" y="7" width="8" height="3" fill="currentColor" opacity="0.9"/>
+                <rect x="3" y="7" width="2" height="2" fill="currentColor" opacity="0.7"/>
+                <rect x="11" y="7" width="2" height="2" fill="currentColor" opacity="0.7"/>
+                <rect x="5" y="10" width="6" height="2" fill="currentColor" opacity="0.7"/>
+                <rect x="6" y="12" width="4" height="1" fill="currentColor" opacity="0.5"/>
+                <rect x="7" y="13" width="2" height="2" fill="currentColor" opacity="0.4"/>
+              </svg>
+            )}
+            {category === 'networking' && (
+              <svg viewBox="0 0 16 16" class="pixel-icon">
+                <rect x="7" y="1" width="2" height="2" fill="currentColor"/>
+                <rect x="5" y="2" width="2" height="2" fill="currentColor"/>
+                <rect x="9" y="2" width="2" height="2" fill="currentColor"/>
+                <rect x="3" y="3" width="2" height="3" fill="currentColor"/>
+                <rect x="11" y="3" width="2" height="3" fill="currentColor"/>
+                <rect x="4" y="4" width="8" height="4" fill="currentColor" opacity="0.9"/>
+                <rect x="5" y="8" width="6" height="2" fill="currentColor" opacity="0.8"/>
+                <rect x="6" y="10" width="4" height="2" fill="currentColor" opacity="0.6"/>
+                <rect x="7" y="12" width="2" height="2" fill="currentColor" opacity="0.4"/>
+              </svg>
+            )}
+          </div>
+          <p class="break-title">{talk.title}</p>
+          <p class="break-powerup">{config.label}</p>
+          <div class="break-bottom">
+            <span class="break-time">{timeLabel} – {timeEnd}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back face -->
+      <div class="back">
+        <div class="base tall"></div>
+        <div class="base wide"></div>
+        <div class="line one"></div>
+        <div class="line two"></div>
+        <div class="line three"></div>
+        <div class="line four"></div>
+      </div>
+
+      <!-- Right side -->
+      <div class="rightside">
+        <div class="top"></div>
+        <div class="bottom"></div>
+        <div class="line one"></div>
+        <div class="ceiling one"></div>
+        <div class="floor one"></div>
+        <div class="line two"></div>
+        <div class="ceiling two"></div>
+        <div class="floor two"></div>
+        <div class="line three"></div>
+        <div class="ceiling three"></div>
+        <div class="floor three"></div>
+        <div class="line four"></div>
+        <div class="ceiling four"></div>
+        <div class="floor four"></div>
+      </div>
+
+      <!-- Left side -->
+      <div class="leftside">
+        <div class="bottom"></div>
+        <div class="line one"></div>
+        <div class="ceiling one"></div>
+        <div class="floor one"></div>
+        <div class="line two"></div>
+        <div class="ceiling two"></div>
+        <div class="floor two"></div>
+        <div class="line three"></div>
+        <div class="ceiling three"></div>
+        <div class="floor three"></div>
+        <div class="line four"></div>
+        <div class="ceiling four"></div>
+        <div class="floor four"></div>
+      </div>
+
+      <!-- Top side -->
+      <div class="topside">
+        <div class="left"></div>
+        <div class="right"></div>
+      </div>
+
+      <!-- Bottom side -->
+      <div class="bottomside">
+        <div class="side"></div>
+      </div>
+
+    </div>
+  </div>
+</article>
+
+<style>
+  /* ── Color palettes per break category ───── */
+  .cat-coffee {
+    --c-base:    #3a7d4a;
+    --c-dark:    #2d6b3c;
+    --c-darker:  #1f5a2e;
+    --c-label-bg: #0d2818;
+    --c-accent:  #7deb70;
+    --c-icon:    #7deb70;
+    --c-title:   #c8f0b0;
+    --c-powerup: #7deb70;
+    --c-time-bg: #1e6e3a;
+    --c-time-fg: #c8f0b0;
+  }
+
+  .cat-breakfast {
+    --c-base:    #b8982a;
+    --c-dark:    #a38622;
+    --c-darker:  #8a7018;
+    --c-label-bg: #2e2510;
+    --c-accent:  #ffd84a;
+    --c-icon:    #ffd84a;
+    --c-title:   #fff4c0;
+    --c-powerup: #ffd84a;
+    --c-time-bg: #6e5a1e;
+    --c-time-fg: #fff4c0;
+  }
+
+  .cat-lunch {
+    --c-base:    #b84040;
+    --c-dark:    #a03232;
+    --c-darker:  #882828;
+    --c-label-bg: #2e1010;
+    --c-accent:  #ff6b6b;
+    --c-icon:    #ff6b6b;
+    --c-title:   #ffc0c0;
+    --c-powerup: #ff6b6b;
+    --c-time-bg: #6e1e1e;
+    --c-time-fg: #ffc0c0;
+  }
+
+  .cat-networking {
+    --c-base:    #6a4a8a;
+    --c-dark:    #5a3c78;
+    --c-darker:  #4a3068;
+    --c-label-bg: #1a1028;
+    --c-accent:  #c090f0;
+    --c-icon:    #c090f0;
+    --c-title:   #e0d0f8;
+    --c-powerup: #c090f0;
+    --c-time-bg: #3e1e6e;
+    --c-time-fg: #e0d0f8;
+  }
+
+  /* ── Dimensions (same as CartridgeCard) ───── */
+  .break-wrap {
+    --cw: 196px;
+    --ch: 225px;
+    --cd: 20px;
+    --cd2: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    padding: 24px 36px;
+  }
+
+  /* ── Cartridge container ───── */
+  .break-cartridge {
+    position: relative;
+    display: inline-block;
+    width: var(--cw);
+    height: var(--ch);
+    perspective: 900px;
+    transform-style: preserve-3d;
+    flex-shrink: 0;
+  }
+
+  .break-case {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    transform-style: preserve-3d;
+    transform: rotateY(-22deg) rotateX(10deg);
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .break-wrap:hover .break-case {
+    transform: rotateY(-8deg) rotateX(4deg);
+  }
+
+  /* ── Front / Back ───── */
+  .front,
+  .back {
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+  }
+
+  .front .base,
+  .back .base {
+    background-color: var(--c-base);
+    position: absolute;
+  }
+
+  .front .tall,
+  .back .tall {
+    height: 50%;
+    width: 90%;
+    top: 0;
+    left: 0;
+  }
+
+  .front .wide,
+  .back .wide {
+    height: 95%;
+    width: 100%;
+    bottom: 0;
+    right: 0;
+  }
+
+  .front .linebase {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 100%;
+    height: 15%;
+    top: 9%;
+    left: 0;
+  }
+
+  .front .line,
+  .back .line {
+    position: absolute;
+    background-color: var(--c-base);
+    width: 104%;
+    left: -2%;
+    height: calc(15% / 9);
+  }
+
+  .front .leftindent,
+  .front .rightindent {
+    position: absolute;
+    height: 65%;
+    width: 2%;
+    bottom: 0;
+    background-color: var(--c-dark);
+  }
+
+  .front .rightindent {
+    right: 0;
+  }
+
+  .front .oval {
+    position: absolute;
+    width: 75%;
+    height: 15%;
+    background-color: var(--c-dark);
+    border: calc(var(--cw) / 50) solid var(--c-base);
+    border-radius: 9999px;
+    left: calc(12.5% - 2%);
+    top: 7%;
+  }
+
+  /* ── Label (break content area) ───── */
+  .front .label {
+    position: absolute;
+    height: calc(var(--cw) * 0.75);
+    width: 70%;
+    bottom: 7%;
+    left: calc(15% - 1%);
+    border: calc(var(--cw) / 100) solid rgba(0, 0, 0, 0.4);
+    border-radius: calc(var(--cw) / 50);
+    overflow: hidden;
+    padding: 8px;
+    background: linear-gradient(160deg, var(--c-label-bg) 0%, #000 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    text-align: center;
+  }
+
+  /* ── Pixel-art icon ───── */
+  .break-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--c-icon);
+    filter: drop-shadow(0 0 6px var(--c-icon));
+    animation: powerup-pulse 2s ease-in-out infinite;
+  }
+
+  .pixel-icon {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+  }
+
+  @keyframes powerup-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(1.1); opacity: 0.85; }
+  }
+
+  .break-title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    line-height: 1.25;
+    color: var(--c-title);
+  }
+
+  .break-powerup {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.42rem;
+    line-height: 1.6;
+    color: var(--c-powerup);
+    text-shadow: 0 0 8px var(--c-powerup);
+    letter-spacing: 0.06em;
+    animation: blink-text 1.5s step-end infinite;
+  }
+
+  @keyframes blink-text {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+  }
+
+  .break-bottom {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .break-time {
+    font-family: var(--font-display);
+    font-size: 0.42rem;
+    background: var(--c-time-bg);
+    color: var(--c-time-fg);
+    padding: 2px 6px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+  }
+
+  /* ── translateZ for front/back ───── */
+  .front {
+    transform: translateZ(var(--cd2));
+  }
+
+  .back {
+    transform: translateZ(calc(-1 * var(--cd2)));
+  }
+
+  /* ── Groove line positions ───── */
+  .one   { top: calc(9% + (15% / 9) * 1); }
+  .two   { top: calc(9% + (15% / 9) * 3); }
+  .three { top: calc(9% + (15% / 9) * 5); }
+  .four  { top: calc(9% + (15% / 9) * 7); }
+
+  /* ── Right / Left sides ───── */
+  .rightside,
+  .leftside {
+    position: absolute;
+    width: var(--cd);
+    height: 100%;
+    bottom: 0;
+    transform-style: preserve-3d;
+    transform: rotateY(90deg);
+  }
+
+  .rightside {
+    right: calc(-1 * var(--cd2));
+  }
+
+  .leftside {
+    left: calc(-1 * var(--cd2));
+  }
+
+  .rightside .top {
+    position: absolute;
+    background-color: var(--c-darker);
+    width: 100%;
+    height: 5%;
+    transform: translateZ(calc(-1 * var(--cd)));
+  }
+
+  .rightside .bottom,
+  .leftside .bottom {
+    position: absolute;
+    bottom: 0;
+    background-color: var(--c-dark);
+    width: 100%;
+  }
+
+  .rightside .bottom { height: 95%; }
+  .leftside  .bottom { height: 100%; }
+
+  .rightside .line,
+  .leftside .line {
+    position: absolute;
+    background-color: var(--c-darker);
+    height: calc(15% / 9);
+    width: 100%;
+  }
+
+  .rightside .line { transform: translateZ(calc(var(--cw) * 0.02)); }
+  .leftside  .line { transform: translateZ(calc(-1 * var(--cw) * 0.02)); }
+
+  .rightside .floor,
+  .rightside .ceiling,
+  .leftside .floor,
+  .leftside .ceiling {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 100%;
+    height: calc(var(--cw) * 0.04);
+    transform: rotateX(90deg);
+  }
+
+  .rightside .ceiling,
+  .leftside .ceiling {
+    transform: translateY(calc(-1 * var(--ch) * 0.15 / 9)) rotateX(90deg);
+  }
+
+  /* ── Top side ───── */
+  .topside {
+    position: absolute;
+    width: 100%;
+    height: var(--cd);
+    top: calc(-1 * var(--cd2));
+    transform: rotateX(90deg);
+    transform-style: preserve-3d;
+  }
+
+  .topside .left {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 90%;
+    height: 100%;
+  }
+
+  .topside .right {
+    position: absolute;
+    background-color: var(--c-darker);
+    width: 10%;
+    height: 100%;
+    right: 0;
+    transform: translateZ(calc(-1 * var(--ch) * 0.05));
+  }
+
+  /* ── Bottom side ───── */
+  .bottomside {
+    position: absolute;
+    background-color: #1e1e1e;
+    bottom: calc(-1 * var(--cd2));
+    height: calc(var(--cd) / 2);
+    width: calc(var(--cw) - var(--cd2));
+    transform: rotateX(90deg);
+    border: calc(var(--cw) * 0.025) solid var(--c-darker);
+  }
+</style>
