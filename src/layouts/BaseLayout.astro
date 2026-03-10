@@ -1,12 +1,14 @@
 ---
 import '../styles/global.css';
+import Navigation from '../components/Navigation.astro';
 
 type Props = {
   title: string;
   description?: string;
+  currentPage?: string;
 };
 
-const { title, description } = Astro.props;
+const { title, description, currentPage = 'home' } = Astro.props;
 ---
 
 <!doctype html>
@@ -24,9 +26,42 @@ const { title, description } = Astro.props;
       rel="stylesheet"
     />
   </head>
-    <body class="crt">
+  <body class="crt">
     <main>
-      <slot />
+      <div class="desktop-wrap">
+        <div class="desktop-window pixel-frame">
+          <!-- Window chrome -->
+          <div class="window-chrome">
+            <div class="chrome-left">
+              <div class="chrome-left-inner">
+                <span class="chrome-star" aria-hidden="true">★</span>
+                <span class="chrome-menu">Back · Forward · Home · Reload</span>
+              </div>
+              <div class="chrome-buttons" aria-hidden="true">
+                <span class="btn-min">▬</span>
+                <span class="btn-max">☐</span>
+                <span class="btn-close">✕</span>
+              </div>
+            </div>
+            <div class="chrome-nav-row">
+              <span class="nav-arrows" aria-hidden="true">← → ⊕</span>
+              <div class="address-bar"><a href="https://www.returngis.net/" target="_blank" rel="noopener">https://www.returngis.net</a></div>
+            </div>
+            <Navigation currentPage={currentPage} />
+          </div>
+
+          <!-- Page content -->
+          <slot />
+
+          <footer class="site-footer">
+            <p>© 2026 RETURNGIS</p>
+            <span aria-hidden="true">|</span>
+            <p>EMAIL</p>
+            <span aria-hidden="true">|</span>
+            <p>TERMS OF SERVICE</p>
+          </footer>
+        </div>
+      </div>
     </main>
   </body>
 </html>

@@ -212,7 +212,7 @@ main {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 0 20px;
-  padding: 18px 0 14px;
+  padding: 18px 24px 14px;
   border-bottom: 3px solid rgba(116, 86, 59, 0.5);
 }
 

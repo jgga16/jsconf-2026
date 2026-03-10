@@ -1,0 +1,68 @@
+---
+type Props = {
+  currentPage?: string;
+};
+
+const { currentPage = 'home' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const links = [
+  { id: 'home', label: 'HOME', href: `${base}/` },
+  { id: 'about', label: 'ABOUT ME', href: `${base}/about/` },
+  { id: 'demos', label: 'DEMOS', href: `${base}/demos/` },
+];
+---
+
+<nav class="main-nav" aria-label="Primary">
+  {links.map((link) => (
+    <a
+      href={link.href}
+      class:list={['main-nav-link', { active: currentPage === link.id }]}
+      aria-current={currentPage === link.id ? 'page' : undefined}
+    >
+      {link.label}
+    </a>
+  ))}
+</nav>
+
+<style>
+  .main-nav {
+    display: flex;
+    gap: 6px;
+    padding: 8px 0 0;
+  }
+
+  .main-nav-link {
+    display: inline-block;
+    background: linear-gradient(180deg, #f8c84a, #d48c20);
+    border: 3px solid var(--border-strong);
+    box-shadow:
+      3px 3px 0 rgba(50, 35, 14, 0.6),
+      inset 0 1px 0 rgba(255, 245, 180, 0.5);
+    padding: 6px 14px;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    color: #1e140a;
+    text-decoration: none;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+
+  .main-nav-link:hover {
+    background: linear-gradient(180deg, #ffd85a, #e09a28);
+    box-shadow:
+      2px 2px 0 rgba(50, 35, 14, 0.6),
+      inset 0 1px 0 rgba(255, 245, 180, 0.5);
+    transform: translate(1px, 1px);
+  }
+
+  .main-nav-link.active {
+    background: linear-gradient(180deg, #b87818, #8a5810);
+    box-shadow:
+      inset 2px 2px 0 rgba(50, 35, 14, 0.5),
+      inset -1px -1px 0 rgba(255, 245, 180, 0.15);
+    transform: translate(2px, 2px);
+    color: #f5e0b0;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+  }
+</style>

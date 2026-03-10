@@ -1,0 +1,344 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const demos = [
+  {
+    emoji: '🤖',
+    title: 'Squad',
+    description: 'Tu equipo de IA. Describe lo que quieres construir y obtén un equipo de especialistas en tu repo.',
+    link: 'https://github.com/bradygaster/squad',
+    number: '01',
+  },
+  {
+    emoji: '🌐',
+    title: 'Agentic Browser Tool',
+    description: 'Herramienta de navegador agéntico para GitHub Copilot CLI.',
+    link: 'https://youtu.be/ccj7ok6s3hA',
+    thumbnail: `${base}/assets/demos/agentic-browser-tool.jpg`,
+    number: '02',
+  },
+  {
+    emoji: '🔌',
+    title: '3rd Party Agents en GitHub.com',
+    description: 'Agentes de terceros integrados en GitHub.',
+    link: 'https://docs.github.com/en/copilot/concepts/agents/about-third-party-agents',
+    number: '03',
+  },
+  {
+    emoji: '⚡',
+    title: 'Agentic Workflows',
+    description: 'Flujos de trabajo agénticos con GitHub Actions.',
+    link: 'https://youtu.be/TGX30Z9YVnY',
+    thumbnail: `${base}/assets/demos/agentic-workflows.jpg`,
+    number: '04',
+  },
+  {
+    emoji: '🧩',
+    title: 'MCP Servers',
+    description: 'Model Context Protocol: conecta tus herramientas favoritas con los agentes de IA.',
+    link: `https://www.youtube.com/playlist?list=PLO9JpmNAsqM6hj9FIFIgt5UkHyBiepMrS`,
+    thumbnail: `${base}/assets/demos/mcp-servers.jpg`,
+    number: '05',
+    bonus: true,
+  },
+  {
+    emoji: '💻',
+    title: 'GitHub Copilot CLI',
+    description: 'Agentes de IA directamente en tu terminal.',
+    link: 'https://github.com/features/copilot/cli',
+    number: '06',
+    bonus: true,
+  },
+];
+---
+
+<BaseLayout title="Demos | JSConf 2026" currentPage="demos">
+  <section class="demos-section">
+    <div class="page-header">
+      <h1 class="page-title">CHOOSE YOUR QUEST</h1>
+      <p class="page-subtitle">▶ CLICK TO EXPLORE ◀</p>
+    </div>
+
+    <div class="demos-grid">
+      {demos.map((demo) => {
+        const Tag = demo.comingSoon ? 'div' : 'a';
+        return (
+          <Tag
+            {...(!demo.comingSoon && { href: demo.link, target: '_blank', rel: 'noopener noreferrer' })}
+            class:list={['demo-cartridge', { bonus: demo.bonus, 'coming-soon': demo.comingSoon }]}
+          >
+            <div class="cartridge-body">
+              <div class="cartridge-label">
+                <div class="label-top">
+                  <span class="demo-number">No.{demo.number}</span>
+                  {demo.bonus && <span class="bonus-badge">★ BONUS</span>}
+                  {demo.comingSoon && <span class="coming-soon-badge">🎬 COMING SOON</span>}
+                </div>
+                {demo.thumbnail ? (
+                  <img src={demo.thumbnail} alt={demo.title} class="demo-thumbnail" />
+                ) : (
+                  <span class="demo-emoji" aria-hidden="true">{demo.emoji}</span>
+                )}
+                <h2 class="demo-title">{demo.title}</h2>
+                <p class="demo-description">{demo.description}</p>
+                <div class="label-footer">
+                  {demo.comingSoon ? (
+                    <span class="play-hint coming-soon-hint">⏳ SOON</span>
+                  ) : (
+                    <span class="play-hint">► PLAY</span>
+                  )}
+                  {!demo.comingSoon && <span class="link-icon">🔗</span>}
+                </div>
+              </div>
+            </div>
+
+            <div class="cartridge-bottom">
+              <div class="connector"></div>
+            </div>
+          </Tag>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .demos-section {
+    padding: 24px 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* ── Page header ──────────────────────────────────── */
+  .page-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(0.75rem, 2.5vw, 1.1rem);
+    color: var(--accent);
+    text-shadow: 2px 2px 0 var(--accent-dark);
+    margin: 0 0 12px;
+    letter-spacing: 0.05em;
+  }
+
+  .page-subtitle {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    color: var(--muted);
+    margin: 0;
+    animation: blink 1.2s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* ── Grid ─────────────────────────────────────────── */
+  .demos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px;
+    justify-items: center;
+    align-items: stretch;
+  }
+
+  /* ── Cartridge link ───────────────────────────────── */
+  .demo-cartridge {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+    text-decoration: none;
+    color: inherit;
+    perspective: 600px;
+    transition: transform 0.3s ease;
+  }
+
+  .demo-cartridge:hover {
+    transform: translateY(-6px);
+  }
+
+  .demo-cartridge.coming-soon {
+    cursor: default;
+    opacity: 0.7;
+  }
+
+  .demo-cartridge.coming-soon:hover {
+    transform: none;
+  }
+
+  .demo-cartridge.coming-soon .cartridge-body {
+    background: linear-gradient(145deg, #8a8a8a 0%, #6a6a6a 40%, #5a5a5a 100%);
+  }
+
+  .coming-soon-badge {
+    font-family: var(--font-display);
+    font-size: 0.35rem;
+    color: #ff9040;
+    background: rgba(255, 144, 64, 0.15);
+    padding: 2px 6px;
+    border: 1px solid rgba(255, 144, 64, 0.4);
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  .coming-soon-hint {
+    color: #8a8a8a;
+  }
+
+  .demo-cartridge:hover .cartridge-body {
+    transform: rotateX(2deg) rotateY(-3deg);
+    box-shadow:
+      4px 6px 0 var(--border),
+      6px 8px 0 rgba(0, 0, 0, 0.15);
+  }
+
+  .demo-cartridge:hover .play-hint {
+    color: #c8f0b0;
+    text-shadow: 0 0 6px rgba(200, 240, 176, 0.5);
+  }
+
+  /* ── Cartridge body ───────────────────────────────── */
+  .cartridge-body {
+    background:
+      linear-gradient(145deg, #c0a878 0%, #a89060 40%, #9a8358 100%);
+    border: 3px solid var(--border);
+    border-radius: 6px 6px 4px 4px;
+    padding: 4px;
+    box-shadow:
+      3px 4px 0 var(--border),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1;
+  }
+
+  /* ── Label area ───────────────────────────────────── */
+  .cartridge-label {
+    background: linear-gradient(160deg, #22375e 0%, #0f1a30 100%);
+    border: 2px solid rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 160px;
+    flex: 1;
+  }
+
+  .demo-number {
+    font-family: var(--font-display);
+    font-size: 0.4rem;
+    color: #6a8aaa;
+    letter-spacing: 0.1em;
+  }
+
+  .label-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .bonus-badge {
+    font-family: var(--font-display);
+    font-size: 0.35rem;
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.15);
+    padding: 2px 6px;
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  .demo-emoji {
+    font-size: 3.5rem;
+    text-align: center;
+    filter: saturate(0.8);
+    line-height: 1;
+    padding: 24px 0;
+  }
+
+  .demo-thumbnail {
+    width: 100%;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+  }
+
+  .demo-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    line-height: 1.6;
+    color: #f5d060;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
+  }
+
+  .demo-description {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    line-height: 1.3;
+    color: #a8c8e8;
+    flex: 1;
+  }
+
+  .label-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 4px;
+  }
+
+  .play-hint {
+    font-family: var(--font-display);
+    font-size: 0.4rem;
+    color: #4a8a5a;
+    letter-spacing: 0.05em;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .link-icon {
+    font-size: 0.75rem;
+    opacity: 0.6;
+  }
+
+  /* ── Cartridge bottom connector ───────────────────── */
+  .cartridge-bottom {
+    display: flex;
+    justify-content: center;
+    padding-top: 2px;
+  }
+
+  .connector {
+    width: 60%;
+    height: 8px;
+    background: var(--border);
+    border-radius: 0 0 3px 3px;
+    border: 2px solid var(--border-strong);
+    border-top: none;
+  }
+
+  /* ── Focus styles ─────────────────────────────────── */
+  .demo-cartridge:focus-visible {
+    outline: 3px dashed var(--accent);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  /* ── Responsive ───────────────────────────────────── */
+  @media (max-width: 600px) {
+    .demos-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .demos-section {
+      padding: 16px 12px;
+    }
+  }
+</style>

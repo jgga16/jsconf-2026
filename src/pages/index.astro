@@ -28,79 +28,42 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
 <BaseLayout
   title={`${event.name} — Sopla el Cartucho`}
   description={`${event.name} (${event.date}) — ${event.venue}.`}
+  currentPage="home"
 >
-  <div class="desktop-wrap">
-    <div class="desktop-window pixel-frame">
-      <!-- Window chrome -->
-      <div class="window-chrome">
-        <div class="chrome-left">
-          <div class="chrome-left-inner">
-            <span class="chrome-star" aria-hidden="true">★</span>
-            <span class="chrome-menu">Back · Forward · Home · Reload</span>
-          </div>
-          <div class="chrome-buttons" aria-hidden="true">
-            <span class="btn-min">▬</span>
-            <span class="btn-max">☐</span>
-            <span class="btn-close">✕</span>
-          </div>
+  <!-- Hero: console (left) | title + first card row (right) -->
+  <section class="hero" id="home" aria-labelledby="site-title">
+    <div class="hero-left">
+      <Console avatarSrc={heroAvatar} name={heroTalk?.speakers?.[0]?.name} />
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-title-row">
+        <div class="hero-title">
+          <h1 id="site-title">Sopla el cartucho</h1>
+          <p class="event-name">{event.name}</p>
         </div>
-        <div class="chrome-nav-row">
-          <span class="nav-arrows" aria-hidden="true">← → ⊕</span>
-          <div class="address-bar"><a href="https://www.returngis.net/" target="_blank" rel="noopener">https://www.returngis.net</a></div>
+        <div class="qr-code-wrapper" title="Escanea para ver en móvil">
+          <img src={qrCodeSrc} alt="QR Code - Escanea para ver en móvil" class="qr-code" />
+          <span class="qr-label">📱 ESCANEA</span>
         </div>
       </div>
 
-      <!-- Hero: nav + console (left) | title + first card row (right) -->
-      <section class="hero" id="home" aria-labelledby="site-title">
-        <div class="hero-left">
-          <nav class="side-nav" aria-label="Primary">
-            <a href="#home">HOME</a>
-            <a href="#about">ABOUT</a>
-            <a href="#speakers">SPEAKERS</a>
-            <a href="#contact">CONTACT</a>
-          </nav>
-
-          <Console avatarSrc={heroAvatar} name={heroTalk?.speakers?.[0]?.name} />
-        </div>
-
-        <div class="hero-right">
-          <div class="hero-title-row">
-            <div class="hero-title">
-              <h1 id="site-title">Sopla el cartucho</h1>
-              <p class="event-name">{event.name}</p>
-            </div>
-            <div class="qr-code-wrapper" title="Escanea para ver en móvil">
-              <img src={qrCodeSrc} alt="QR Code - Escanea para ver en móvil" class="qr-code" />
-              <span class="qr-label">📱 ESCANEA</span>
-            </div>
-          </div>
-
-          <div class="hero-cards" id="speakers">
-            {firstRow.map((talk) => (
-              <CartridgeCard talk={talk} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <!-- Remaining speaker rows -->
-      <section class="speakers-panel" aria-label="More speakers">
-        <div class="cartridge-grid">
-          {remainingTalks.map((talk) => (
-            <CartridgeCard talk={talk} />
-          ))}
-        </div>
-      </section>
-
-      <footer class="site-footer" id="contact">
-        <p>© 2026 RETROGAMES</p>
-        <span aria-hidden="true">|</span>
-        <p>EMAIL</p>
-        <span aria-hidden="true">|</span>
-        <p>TERMS OF SERVICE</p>
-      </footer>
+      <div class="hero-cards" id="speakers">
+        {firstRow.map((talk) => (
+          <CartridgeCard talk={talk} />
+        ))}
+      </div>
     </div>
-  </div>
+  </section>
+
+  <!-- Remaining speaker rows -->
+  <section class="speakers-panel" aria-label="More speakers">
+    <div class="cartridge-grid">
+      {remainingTalks.map((talk) => (
+        <CartridgeCard talk={talk} />
+      ))}
+    </div>
+  </section>
 
   <script>
     // Interactive console: click cartridge to load speaker in Console
