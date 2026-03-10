@@ -1,19 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CartridgeCard from '../components/CartridgeCard.astro';
+import BreakCartridge from '../components/BreakCartridge.astro';
 import GameBoy from '../components/GameBoy.astro';
 import { talksWithAssets, event } from '../lib/talks';
 
-// Render presentations as cartridges; skip breaks and ceremonies without speakers
+// Render presentations and breaks as cartridges; skip ceremonies without speakers
 const talks = talksWithAssets.filter((t) => {
-  if (t.type === 'break') return false;
   if (t.type === 'ceremony' && (!t.speakers || t.speakers.length === 0)) return false;
   return true;
 });
 
-// Hero speaker shown in the console monitor
-const heroIndex = 0;
-const heroTalk = talks[heroIndex] ?? talks[0];
+// Hero speaker shown in the console monitor.
+// Breaks have no avatar, so pick the first entry that has at least one speaker.
+const heroTalk = talks.find((t) => t.speakers && t.speakers.length > 0) ?? talks[0];
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const rawHeroAvatar = heroTalk?.assets?.avatar8bit ?? '/placeholders/avatar.svg';
 const heroAvatar = rawHeroAvatar.startsWith('/') ? `${base}${rawHeroAvatar}` : rawHeroAvatar;
@@ -77,7 +77,9 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
 
           <div class="hero-cards" id="speakers">
             {firstRow.map((talk) => (
-              <CartridgeCard talk={talk} />
+              talk.type === 'break'
+                ? <BreakCartridge talk={talk} />
+                : <CartridgeCard talk={talk} />
             ))}
           </div>
         </div>
@@ -87,7 +89,9 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
       <section class="speakers-panel" aria-label="More speakers">
         <div class="cartridge-grid">
           {remainingTalks.map((talk) => (
-            <CartridgeCard talk={talk} />
+            talk.type === 'break'
+              ? <BreakCartridge talk={talk} />
+              : <CartridgeCard talk={talk} />
           ))}
         </div>
       </section>

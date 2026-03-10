@@ -51,6 +51,12 @@ test('talks.json has event + talks[] (basic invariants)', async () => {
     assert.ok(TIME_RE.test(t.time.end), `bad end time: ${t.time.end}`);
 
     assert.ok(['talk', 'break', 'ceremony', 'lightning'].includes(t.type));
+    if (t.type === 'break' && t.breakType !== undefined) {
+      assert.ok(
+        ['coffee', 'breakfast', 'lunch', 'networking'].includes(t.breakType),
+        `invalid breakType '${t.breakType}' for talk id: ${t.id}`,
+      );
+    }
     assert.ok(['es', 'en'].includes(t.language));
     assert.ok(Array.isArray(t.tags));
   }
