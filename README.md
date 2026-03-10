@@ -15,7 +15,9 @@ El resultado es **"Sopla el Cartucho"**: una web con estilo retro inspirada en l
 
 ## 📺 Demo
 
-![Demo de Sopla el Cartucho](docs/screenshots/demo.gif)
+<p align="center">
+  <img src="docs/screenshots/demo.gif" alt="Demo de Sopla el Cartucho" />
+</p>
 
 > Video completo disponible en [docs/screenshots/demo.webm](docs/screenshots/demo.webm)
 
