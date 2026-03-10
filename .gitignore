@@ -25,7 +25,6 @@ coverage/
 .env.*
 !.env.example
 
-# Generated assets (rebuildable)
-public/assets/avatars/
+# Original hi-res avatars (not needed for deploy)
 public/assets/avatars-original/
-public/assets/covers/
+public/assets/avatars/original/
