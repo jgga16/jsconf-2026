@@ -13,7 +13,6 @@ type Props = {
 const { talk } = Astro.props;
 
 type BreakConfig = {
-  icon: string;
   powerUp: string;
   action: string;
   cssClass: string;
@@ -21,29 +20,75 @@ type BreakConfig = {
 
 const breakConfigs: Record<string, BreakConfig> = {
   breakfast: {
-    icon: '★',
     powerUp: '+500 XP',
     action: 'MORNING BOOST',
     cssClass: 'break-breakfast',
   },
   coffee: {
-    icon: '♥',
     powerUp: '+100 HP',
     action: 'ENERGY RELOAD',
     cssClass: 'break-coffee',
   },
   lunch: {
-    icon: '♥♥♥',
     powerUp: 'FULL HEAL',
     action: 'LIFE RESTORE',
     cssClass: 'break-lunch',
   },
   networking: {
-    icon: '✦✦',
     powerUp: 'BONUS STAGE',
     action: 'SOCIAL XP ×2',
     cssClass: 'break-networking',
   },
+};
+
+/*
+ * Pixel-art icons defined as arrays of {x,y,w,h} rects on an 8×8 grid.
+ * Rendered as inline SVG so they inherit `currentColor` from CSS.
+ *
+ *  breakfast  → 4-pointed star  (morning star / energy)
+ *  coffee     → lightning bolt  (quick boost / recharge)
+ *  lunch      → heart           (classic RPG health restore)
+ *  networking → trophy cup      (bonus stage / achievement)
+ */
+type Rect = { x: number; y: number; w: number; h: number };
+const pixelIcons: Record<string, Rect[]> = {
+  breakfast: [
+    // 4-pointed star
+    { x: 3, y: 0, w: 2, h: 2 },
+    { x: 2, y: 2, w: 4, h: 1 },
+    { x: 0, y: 3, w: 8, h: 2 },
+    { x: 2, y: 5, w: 4, h: 1 },
+    { x: 3, y: 6, w: 2, h: 2 },
+  ],
+  coffee: [
+    // lightning bolt (top-right to bottom-left)
+    { x: 3, y: 0, w: 4, h: 1 },
+    { x: 2, y: 1, w: 4, h: 1 },
+    { x: 1, y: 2, w: 4, h: 1 },
+    { x: 2, y: 3, w: 2, h: 1 },
+    { x: 3, y: 4, w: 3, h: 1 },
+    { x: 4, y: 5, w: 3, h: 1 },
+    { x: 5, y: 6, w: 2, h: 1 },
+  ],
+  lunch: [
+    // classic heart
+    { x: 1, y: 0, w: 2, h: 1 },
+    { x: 4, y: 0, w: 2, h: 1 },
+    { x: 0, y: 1, w: 7, h: 2 },
+    { x: 1, y: 3, w: 6, h: 1 },
+    { x: 2, y: 4, w: 4, h: 1 },
+    { x: 3, y: 5, w: 2, h: 1 },
+  ],
+  networking: [
+    // trophy cup
+    { x: 0, y: 0, w: 8, h: 1 },
+    { x: 0, y: 1, w: 1, h: 2 },
+    { x: 7, y: 1, w: 1, h: 2 },
+    { x: 1, y: 3, w: 6, h: 1 },
+    { x: 2, y: 4, w: 4, h: 1 },
+    { x: 3, y: 5, w: 2, h: 1 },
+    { x: 1, y: 6, w: 6, h: 1 },
+  ],
 };
 
 const breakType = talk.breakType ?? 'coffee';
@@ -74,7 +119,16 @@ const timeEnd = talk.time?.end ?? '';
         <div class="oval"></div>
         <div class="label">
           <div class="powerup-header">POWER-UP!</div>
-          <div class="powerup-icon" aria-hidden="true">{cfg.icon}</div>
+          <svg
+            class="powerup-icon"
+            viewBox="0 0 8 8"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            {(pixelIcons[breakType] ?? pixelIcons.coffee).map((r) => (
+              <rect x={r.x} y={r.y} width={r.w} height={r.h} fill="currentColor" />
+            ))}
+          </svg>
           <div class="powerup-value">{cfg.powerUp}</div>
           <p class="break-title">{talk.title}</p>
           <div class="label-bottom">
@@ -367,13 +421,12 @@ const timeEnd = talk.time?.end ?? '';
   }
 
   .powerup-icon {
-    font-family: var(--font-display);
-    font-size: 1.6rem;
+    width: 40px;
+    height: 40px;
     color: var(--c-icon);
-    text-shadow: 0 0 8px var(--c-icon), 2px 2px 0 rgba(0, 0, 0, 0.6);
-    line-height: 1;
-    text-align: center;
-    letter-spacing: 2px;
+    filter: drop-shadow(0 0 4px var(--c-icon)) drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.6));
+    image-rendering: pixelated;
+    flex-shrink: 0;
     animation: powerup-pulse 2s ease-in-out infinite;
   }
 
