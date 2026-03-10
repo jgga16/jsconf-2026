@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CartridgeCard from '../components/CartridgeCard.astro';
-import GameBoy from '../components/GameBoy.astro';
+import Console from '../components/Console.astro';
 import { talksWithAssets, event } from '../lib/talks';
 
 // Render presentations as cartridges; skip breaks and ceremonies without speakers
@@ -60,7 +60,7 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
             <a href="#contact">CONTACT</a>
           </nav>
 
-          <GameBoy avatarSrc={heroAvatar} name={heroTalk?.speakers?.[0]?.name} />
+          <Console avatarSrc={heroAvatar} name={heroTalk?.speakers?.[0]?.name} />
         </div>
 
         <div class="hero-right">
@@ -103,7 +103,7 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
   </div>
 
   <script>
-    // Interactive console: click cartridge to load speaker in GameBoy
+    // Interactive console: click cartridge to load speaker in Console
     document.addEventListener('DOMContentLoaded', () => {
       const screen = document.getElementById('gameboy-screen') as HTMLImageElement;
       const cartridges = document.querySelectorAll('.card-wrap[data-talk-id]');
@@ -198,7 +198,7 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
         return null;
       }
 
-      // Select a cartridge and update GameBoy screen
+      // Select a cartridge and update Console screen
       function selectCartridge(card: HTMLElement, playSound = true) {
         // Hide game over
         hideGameOver();
@@ -209,7 +209,7 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
         // Add selected to clicked card
         card.classList.add('is-selected');
         
-        // Update GameBoy screen with smooth transition
+        // Update Console screen with smooth transition
         const avatar = card.getAttribute('data-avatar');
         const speaker = card.getAttribute('data-speaker');
         

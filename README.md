@@ -57,7 +57,7 @@ npm run build
 ```
 src/
 ├── components/     # Componentes Astro
-│   ├── GameBoy.astro
+│   ├── Console.astro
 │   ├── CartridgeCard.astro
 │   └── BreakCartridge.astro
 ├── data/           # Datos de charlas y assets
