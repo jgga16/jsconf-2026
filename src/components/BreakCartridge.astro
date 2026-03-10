@@ -1,0 +1,534 @@
+---
+/*
+ * Special "power-up" cartridge for breaks/meals
+ * Based on CartridgeCard.astro with retro gaming power-up aesthetic
+ */
+import type { TalkWithAssets } from '../types/talk';
+
+type Props = {
+  talk: TalkWithAssets;
+};
+
+const { talk } = Astro.props;
+
+// Determine break type and styling based on title/id
+const breakId = talk.id;
+let breakType: 'coffee' | 'breakfast' | 'lunch' | 'networking';
+let cartridgeColor: string;
+let icon: string;
+let powerUpLabel: string;
+
+if (breakId.includes('cafe') || breakId.includes('coffee')) {
+  breakType = 'coffee';
+  cartridgeColor = '--c-break-coffee';
+  icon = '☕';
+  powerUpLabel = 'COFFEE BOOST';
+} else if (breakId.includes('churros') || breakId.includes('breakfast')) {
+  breakType = 'breakfast';
+  cartridgeColor = '--c-break-breakfast';
+  icon = '🥐';
+  powerUpLabel = 'ENERGY UP';
+} else if (breakId.includes('comer') || breakId.includes('lunch')) {
+  breakType = 'lunch';
+  cartridgeColor = '--c-break-lunch';
+  icon = '🍽️';
+  powerUpLabel = 'FULL RESTORE';
+} else {
+  breakType = 'networking';
+  cartridgeColor = '--c-break-networking';
+  icon = '🎉';
+  powerUpLabel = 'SOCIAL BOOST';
+}
+
+const timeLabel = `${talk.time?.start} - ${talk.time?.end}`;
+---
+
+<article
+  class={`card-wrap is-break break-${breakType}`}
+  data-talk-id={talk.id}
+  data-break-type={breakType}
+  data-time-start={talk.time?.start}
+  data-time-end={talk.time?.end}
+>
+  <div class="cartridge">
+    <div class="case">
+
+      <!-- Front face -->
+      <div class="front">
+        <div class="base tall"></div>
+        <div class="base wide"></div>
+        <div class="linebase"></div>
+        <div class="line one"></div>
+        <div class="line two"></div>
+        <div class="line three"></div>
+        <div class="line four"></div>
+        <div class="leftindent"></div>
+        <div class="rightindent"></div>
+        <div class="oval"></div>
+        <div class="label">
+          <div class="break-content">
+            <div class="power-up-icon" aria-hidden="true">{icon}</div>
+            <h2 class="break-title">{talk.title}</h2>
+            <div class="power-up-badge">{powerUpLabel}</div>
+            <div class="label-bottom">
+              <span class="time-range">{timeLabel}</span>
+            </div>
+            <!-- Pixel art hearts for energy indication -->
+            <div class="energy-bar" aria-hidden="true">
+              <span class="pixel-heart">♥</span>
+              <span class="pixel-heart">♥</span>
+              <span class="pixel-heart">♥</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back face -->
+      <div class="back">
+        <div class="base tall"></div>
+        <div class="base wide"></div>
+        <div class="line one"></div>
+        <div class="line two"></div>
+        <div class="line three"></div>
+        <div class="line four"></div>
+      </div>
+
+      <!-- Right side -->
+      <div class="rightside">
+        <div class="top"></div>
+        <div class="bottom"></div>
+        <div class="line one"></div>
+        <div class="ceiling one"></div>
+        <div class="floor one"></div>
+        <div class="line two"></div>
+        <div class="ceiling two"></div>
+        <div class="floor two"></div>
+        <div class="line three"></div>
+        <div class="ceiling three"></div>
+        <div class="floor three"></div>
+        <div class="line four"></div>
+        <div class="ceiling four"></div>
+        <div class="floor four"></div>
+      </div>
+
+      <!-- Left side -->
+      <div class="leftside">
+        <div class="bottom"></div>
+        <div class="line one"></div>
+        <div class="ceiling one"></div>
+        <div class="floor one"></div>
+        <div class="line two"></div>
+        <div class="ceiling two"></div>
+        <div class="floor two"></div>
+        <div class="line three"></div>
+        <div class="ceiling three"></div>
+        <div class="floor three"></div>
+        <div class="line four"></div>
+        <div class="ceiling four"></div>
+        <div class="floor four"></div>
+      </div>
+
+      <!-- Top side -->
+      <div class="topside">
+        <div class="left"></div>
+        <div class="right"></div>
+      </div>
+
+      <!-- Bottom side -->
+      <div class="bottomside">
+        <div class="side"></div>
+      </div>
+
+    </div>
+  </div>
+</article>
+
+<style>
+  /* ── Break cartridge color palette ───────────────── */
+  :root {
+    --c-break-coffee: #4a9d5f;      /* Green */
+    --c-break-coffee-dark: #3a7d4f;
+    --c-break-coffee-darker: #2a6d3f;
+
+    --c-break-breakfast: #e8b84d;   /* Yellow/Gold */
+    --c-break-breakfast-dark: #d8a83d;
+    --c-break-breakfast-darker: #c8982d;
+
+    --c-break-lunch: #d84a4a;       /* Red */
+    --c-break-lunch-dark: #c83a3a;
+    --c-break-lunch-darker: #b82a2a;
+
+    --c-break-networking: #8a5aa8;  /* Purple */
+    --c-break-networking-dark: #7a4a98;
+    --c-break-networking-darker: #6a3a88;
+  }
+
+  /* ── Dimensions & palette (scoped to component) ───── */
+  .card-wrap {
+    --cw: 196px;
+    --ch: 225px;
+    --cd: 20px;
+    --cd2: 10px;
+
+    --c-base: #a7a9ac;
+    --c-dark: #939598;
+    --c-darker: #828487;
+    --c-label-bg: #1a2640;
+  }
+
+  /* Break-specific colors */
+  .break-coffee {
+    --c-base: var(--c-break-coffee);
+    --c-dark: var(--c-break-coffee-dark);
+    --c-darker: var(--c-break-coffee-darker);
+    --c-label-bg: #1a3020;
+  }
+
+  .break-breakfast {
+    --c-base: var(--c-break-breakfast);
+    --c-dark: var(--c-break-breakfast-dark);
+    --c-darker: var(--c-break-breakfast-darker);
+    --c-label-bg: #3a2810;
+  }
+
+  .break-lunch {
+    --c-base: var(--c-break-lunch);
+    --c-dark: var(--c-break-lunch-dark);
+    --c-darker: var(--c-break-lunch-darker);
+    --c-label-bg: #3a1010;
+  }
+
+  .break-networking {
+    --c-base: var(--c-break-networking);
+    --c-dark: var(--c-break-networking-dark);
+    --c-darker: var(--c-break-networking-darker);
+    --c-label-bg: #2a1a3a;
+  }
+
+  /* ── Cell wrapper ─────────────────────────────────── */
+  .card-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    padding: 24px 36px;
+  }
+
+  /* ── Cartridge container ──────────────────────────── */
+  .cartridge {
+    position: relative;
+    display: inline-block;
+    width: var(--cw);
+    height: var(--ch);
+    perspective: 900px;
+    transform-style: preserve-3d;
+    flex-shrink: 0;
+  }
+
+  .case {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    transform-style: preserve-3d;
+    transform: rotateY(-22deg) rotateX(10deg);
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .card-wrap:hover .case {
+    transform: rotateY(-8deg) rotateX(4deg);
+  }
+
+  /* ── Front / Back ─────────────────────────────────── */
+  .front,
+  .back {
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+  }
+
+  .front .base,
+  .back .base {
+    background-color: var(--c-base);
+    position: absolute;
+  }
+
+  .front .tall,
+  .back .tall {
+    height: 50%;
+    width: 90%;
+    top: 0;
+    left: 0;
+  }
+
+  .front .wide,
+  .back .wide {
+    height: 95%;
+    width: 100%;
+    bottom: 0;
+    right: 0;
+  }
+
+  .front .linebase {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 100%;
+    height: 15%;
+    top: 9%;
+    left: 0;
+  }
+
+  .front .line,
+  .back .line {
+    position: absolute;
+    background-color: var(--c-base);
+    width: 104%;
+    left: -2%;
+    height: calc(15% / 9);
+  }
+
+  .front .leftindent,
+  .front .rightindent {
+    position: absolute;
+    height: 65%;
+    width: 2%;
+    bottom: 0;
+    background-color: var(--c-dark);
+  }
+
+  .front .rightindent {
+    right: 0;
+  }
+
+  .front .oval {
+    position: absolute;
+    width: 75%;
+    height: 15%;
+    background-color: var(--c-dark);
+    border: calc(var(--cw) / 50) solid var(--c-base);
+    border-radius: 9999px;
+    left: calc(12.5% - 2%);
+    top: 7%;
+  }
+
+  /* ── Label (break content area) ─────────────────── */
+  .front .label {
+    position: absolute;
+    height: calc(var(--cw) * 0.75);
+    width: 70%;
+    bottom: 7%;
+    left: calc(15% - 1%);
+    border: calc(var(--cw) / 100) solid rgba(0, 0, 0, 0.4);
+    border-radius: calc(var(--cw) / 50);
+    overflow: hidden;
+    padding: 8px;
+    background: linear-gradient(160deg, var(--c-label-bg) 0%, rgba(0, 0, 0, 0.8) 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  /* ── Break content styling ────────────────────────── */
+  .break-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .power-up-icon {
+    font-size: 2rem;
+    animation: bounce 1s ease-in-out infinite;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .break-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.48rem;
+    line-height: 1.4;
+    color: #f5d060;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
+    word-break: break-word;
+  }
+
+  .power-up-badge {
+    font-family: var(--font-display);
+    font-size: 0.38rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 3px 8px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.05em;
+  }
+
+  .label-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+  }
+
+  .time-range {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    color: #a8c8e8;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 2px;
+  }
+
+  .energy-bar {
+    display: flex;
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  .pixel-heart {
+    font-size: 0.8rem;
+    color: #ff4444;
+    animation: pulse 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 2px rgba(255, 68, 68, 0.8));
+  }
+
+  .pixel-heart:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .pixel-heart:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+  }
+
+  /* ── translateZ for front/back ────────────────────── */
+  .front {
+    transform: translateZ(var(--cd2));
+  }
+
+  .back {
+    transform: translateZ(calc(-1 * var(--cd2)));
+  }
+
+  /* ── Groove line positions ────────────────────────── */
+  .one   { top: calc(9% + (15% / 9) * 1); }
+  .two   { top: calc(9% + (15% / 9) * 3); }
+  .three { top: calc(9% + (15% / 9) * 5); }
+  .four  { top: calc(9% + (15% / 9) * 7); }
+
+  /* ── Right / Left sides ───────────────────────────── */
+  .rightside,
+  .leftside {
+    position: absolute;
+    width: var(--cd);
+    height: 100%;
+    bottom: 0;
+    transform-style: preserve-3d;
+    transform: rotateY(90deg);
+  }
+
+  .rightside {
+    right: calc(-1 * var(--cd2));
+  }
+
+  .leftside {
+    left: calc(-1 * var(--cd2));
+  }
+
+  .rightside .top {
+    position: absolute;
+    background-color: var(--c-darker);
+    width: 100%;
+    height: 5%;
+    transform: translateZ(calc(-1 * var(--cd)));
+  }
+
+  .rightside .bottom,
+  .leftside .bottom {
+    position: absolute;
+    bottom: 0;
+    background-color: var(--c-dark);
+    width: 100%;
+  }
+
+  .rightside .bottom { height: 95%; }
+  .leftside  .bottom { height: 100%; }
+
+  .rightside .line,
+  .leftside .line {
+    position: absolute;
+    background-color: var(--c-darker);
+    height: calc(15% / 9);
+    width: 100%;
+  }
+
+  .rightside .line { transform: translateZ(calc(var(--cw) * 0.02)); }
+  .leftside  .line { transform: translateZ(calc(-1 * var(--cw) * 0.02)); }
+
+  .rightside .floor,
+  .rightside .ceiling,
+  .leftside .floor,
+  .leftside .ceiling {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 100%;
+    height: calc(var(--cw) * 0.04);
+    transform: rotateX(90deg);
+  }
+
+  .rightside .ceiling,
+  .leftside .ceiling {
+    transform: translateY(calc(-1 * var(--ch) * 0.15 / 9)) rotateX(90deg);
+  }
+
+  /* ── Top side ─────────────────────────────────────── */
+  .topside {
+    position: absolute;
+    width: 100%;
+    height: var(--cd);
+    top: calc(-1 * var(--cd2));
+    transform: rotateX(90deg);
+    transform-style: preserve-3d;
+  }
+
+  .topside .left {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 90%;
+    height: 100%;
+  }
+
+  .topside .right {
+    position: absolute;
+    background-color: var(--c-darker);
+    width: 10%;
+    height: 100%;
+    right: 0;
+    transform: translateZ(calc(-1 * var(--ch) * 0.05));
+  }
+
+  /* ── Bottom side ──────────────────────────────────── */
+  .bottomside {
+    position: absolute;
+    background-color: #1e1e1e;
+    bottom: calc(-1 * var(--cd2));
+    height: calc(var(--cd) / 2);
+    width: calc(var(--cw) - var(--cd2));
+    transform: rotateX(90deg);
+    border: calc(var(--cw) * 0.025) solid var(--c-darker);
+  }
+</style>
