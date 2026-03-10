@@ -8,13 +8,14 @@
     {
       "id": "cafe-y-churros-de-bienvenida",
       "title": "Café y Churros de Bienvenida",
-      "description": "",
+      "description": "Buff de desayuno: churros crujientes + café caliente para arrancar con vida extra.",
       "speakers": [],
       "time": {
         "start": "08:45",
         "end": "09:30"
       },
       "type": "break",
+      "breakCategory": "breakfast",
       "language": "es",
       "tags": []
     },
@@ -97,13 +98,14 @@
     {
       "id": "pausa-de-cafe",
       "title": "Pausa de Café",
-      "description": "",
+      "description": "Sube el mana de café: recarga con espresso y charla improvisada.",
       "speakers": [],
       "time": {
         "start": "11:10",
         "end": "11:40"
       },
       "type": "break",
+      "breakCategory": "coffee",
       "language": "es",
       "tags": []
     },
@@ -193,13 +195,14 @@
     {
       "id": "a-comer",
       "title": "¡A comer!",
-      "description": "",
+      "description": "Banquete 8-bit: vidas al máximo y defensas recargadas.",
       "speakers": [],
       "time": {
         "start": "13:45",
         "end": "15:00"
       },
       "type": "break",
+      "breakCategory": "lunch",
       "language": "es",
       "tags": []
     },
@@ -295,13 +298,14 @@
     {
       "id": "pausa-de-cafe-2",
       "title": "Pausa de Café",
-      "description": "",
+      "description": "Otro chute de cafeína para llegar al boss final de la tarde.",
       "speakers": [],
       "time": {
         "start": "16:00",
         "end": "16:30"
       },
       "type": "break",
+      "breakCategory": "coffee",
       "language": "es",
       "tags": []
     },
@@ -372,13 +376,14 @@
     {
       "id": "coctel-de-despedida-networking",
       "title": "Coctel de despedida + networking",
-      "description": "",
+      "description": "Social XP boost: cóctel, risas y loot sorpresa.",
       "speakers": [],
       "time": {
         "start": "18:10",
         "end": "20:00"
       },
       "type": "break",
+      "breakCategory": "networking",
       "language": "es",
       "tags": []
     }

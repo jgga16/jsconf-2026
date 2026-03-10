@@ -1,26 +1,30 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CartridgeCard from '../components/CartridgeCard.astro';
+import BreakCartridge from '../components/BreakCartridge.astro';
 import GameBoy from '../components/GameBoy.astro';
 import { talksWithAssets, event } from '../lib/talks';
 
-// Render presentations as cartridges; skip breaks and ceremonies without speakers
-const talks = talksWithAssets.filter((t) => {
-  if (t.type === 'break') return false;
-  if (t.type === 'ceremony' && (!t.speakers || t.speakers.length === 0)) return false;
-  return true;
-});
+// Render agenda as cartridges; skip ceremonies without speakers
+const agendaItems = talksWithAssets
+  .filter((t) => {
+    if (t.type === 'ceremony' && (!t.speakers || t.speakers.length === 0)) return false;
+    return true;
+  })
+  .sort((a, b) => a.time.start.localeCompare(b.time.start));
+
+const speakerTalks = agendaItems.filter((t) => t.type !== 'break');
 
 // Hero speaker shown in the console monitor
 const heroIndex = 0;
-const heroTalk = talks[heroIndex] ?? talks[0];
+const heroTalk = speakerTalks[heroIndex] ?? speakerTalks[0] ?? agendaItems[0];
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const rawHeroAvatar = heroTalk?.assets?.avatar8bit ?? '/placeholders/avatar.svg';
 const heroAvatar = rawHeroAvatar.startsWith('/') ? `${base}${rawHeroAvatar}` : rawHeroAvatar;
 
-// Card rows: show ALL talks including hero (hero will also be a cartridge)
-const firstRow = talks.slice(0, 3);
-const remainingTalks = talks.slice(3);
+// Card rows: show full agenda in chronological order (hero will also be a cartridge)
+const firstRow = agendaItems.slice(0, 3);
+const remainingTalks = agendaItems.slice(3);
 
 const qrCodeSrc = `${base}/assets/qr-code.png`;
 ---
@@ -77,7 +81,11 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
 
           <div class="hero-cards" id="speakers">
             {firstRow.map((talk) => (
-              <CartridgeCard talk={talk} />
+              talk.type === 'break' ? (
+                <BreakCartridge talk={talk} />
+              ) : (
+                <CartridgeCard talk={talk} />
+              )
             ))}
           </div>
         </div>
@@ -87,7 +95,11 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
       <section class="speakers-panel" aria-label="More speakers">
         <div class="cartridge-grid">
           {remainingTalks.map((talk) => (
-            <CartridgeCard talk={talk} />
+            talk.type === 'break' ? (
+              <BreakCartridge talk={talk} />
+            ) : (
+              <CartridgeCard talk={talk} />
+            )
           ))}
         </div>
       </section>
