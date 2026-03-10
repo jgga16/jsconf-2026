@@ -29,3 +29,13 @@ Antes de implementar cualquier cambio visual o funcional:
 - **Inglés:** solo nombres de variables, funciones, clases, archivos y código en general.
 
 > ⚠️ No escribas mensajes de commit, comentarios ni descripciones de PR en inglés.
+
+## 4. Agentic Workflows — Compilar siempre
+
+Cuando crees o modifiques un flujo agéntico (archivos `.md` en `.github/workflows/`):
+
+1. **Crea o edita el archivo `.md`** con la definición del workflow.
+2. **Ejecuta `gh aw compile`** para generar el workflow real de GitHub Actions.
+3. **Incluye los archivos generados** (`.github/aw/` y `.lock.yml`) en el commit.
+
+> ⚠️ Un flujo agéntico NO funciona hasta que se compile. No olvides este paso.
