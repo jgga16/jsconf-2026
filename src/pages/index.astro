@@ -101,4 +101,161 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
       </footer>
     </div>
   </div>
+
+  <script>
+    // Interactive console: click cartridge to load speaker in GameBoy
+    document.addEventListener('DOMContentLoaded', () => {
+      const screen = document.getElementById('gameboy-screen') as HTMLImageElement;
+      const cartridges = document.querySelectorAll('.card-wrap[data-talk-id]');
+      const display = document.querySelector('.display') as HTMLElement;
+      
+      if (!screen || cartridges.length === 0 || !display) return;
+
+      // Create GAME OVER overlay
+      const gameOverOverlay = document.createElement('div');
+      gameOverOverlay.className = 'game-over-overlay';
+      gameOverOverlay.innerHTML = `
+        <div class="game-over-text">GAME</div>
+        <div class="game-over-text">OVER</div>
+        <div class="game-over-hint">INSERT CARTRIDGE</div>
+      `;
+      display.appendChild(gameOverOverlay);
+
+      // 8-bit Game Over sound using Web Audio API
+      function playGameOverSound() {
+        const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const notes = [523, 392, 330, 262]; // C5, G4, E4, C4 - descending
+        const duration = 0.2;
+        
+        notes.forEach((freq, i) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          
+          osc.type = 'square'; // 8-bit sound
+          osc.frequency.value = freq;
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          
+          const startTime = audioCtx.currentTime + (i * duration);
+          gain.gain.setValueAtTime(0.1, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+          
+          osc.start(startTime);
+          osc.stop(startTime + duration);
+        });
+      }
+
+      // Play "cartridge inserted" sound
+      function playInsertSound() {
+        const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const notes = [262, 330, 392, 523]; // C4, E4, G4, C5 - ascending (victory!)
+        const duration = 0.1;
+        
+        notes.forEach((freq, i) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          
+          osc.type = 'square';
+          osc.frequency.value = freq;
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          
+          const startTime = audioCtx.currentTime + (i * duration);
+          gain.gain.setValueAtTime(0.08, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+          
+          osc.start(startTime);
+          osc.stop(startTime + duration);
+        });
+      }
+
+      // Show GAME OVER state
+      function showGameOver() {
+        gameOverOverlay.classList.add('visible');
+        screen.style.opacity = '0.2';
+        playGameOverSound();
+      }
+
+      // Hide GAME OVER state
+      function hideGameOver() {
+        gameOverOverlay.classList.remove('visible');
+        screen.style.opacity = '1';
+      }
+
+      // Find talk happening NOW based on current time
+      function getCurrentTalk(): HTMLElement | null {
+        const now = new Date();
+        const currentTime = now.getHours().toString().padStart(2, '0') + ':' + 
+                           now.getMinutes().toString().padStart(2, '0');
+        
+        for (const card of cartridges) {
+          const start = card.getAttribute('data-time-start');
+          const end = card.getAttribute('data-time-end');
+          if (start && end && currentTime >= start && currentTime < end) {
+            return card as HTMLElement;
+          }
+        }
+        return null;
+      }
+
+      // Select a cartridge and update GameBoy screen
+      function selectCartridge(card: HTMLElement, playSound = true) {
+        // Hide game over
+        hideGameOver();
+        
+        // Remove selected from all
+        cartridges.forEach(c => c.classList.remove('is-selected'));
+        
+        // Add selected to clicked card
+        card.classList.add('is-selected');
+        
+        // Update GameBoy screen with smooth transition
+        const avatar = card.getAttribute('data-avatar');
+        const speaker = card.getAttribute('data-speaker');
+        
+        if (avatar && screen) {
+          screen.style.opacity = '0';
+          setTimeout(() => {
+            screen.src = avatar;
+            screen.alt = speaker || '';
+            screen.style.opacity = '1';
+            if (playSound) playInsertSound();
+          }, 150);
+        }
+
+        // Scroll cartridge into view if needed
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Add click handlers to all cartridges
+      cartridges.forEach(card => {
+        card.addEventListener('click', () => {
+          selectCartridge(card as HTMLElement, true);
+        });
+        
+        // Add cursor pointer style
+        (card as HTMLElement).style.cursor = 'pointer';
+      });
+
+      // On load: select current talk or show GAME OVER
+      // Debug: add ?gameover=true to URL to force GAME OVER state
+      const urlParams = new URLSearchParams(window.location.search);
+      const forceGameOver = urlParams.get('gameover') === 'true';
+      
+      const currentTalk = forceGameOver ? null : getCurrentTalk();
+      if (currentTalk) {
+        selectCartridge(currentTalk, false);
+      } else {
+        // No talk in progress - GAME OVER!
+        const firstCard = cartridges[0] as HTMLElement;
+        if (firstCard) {
+          firstCard.classList.add('is-selected');
+        }
+        // Delay to let boot animation complete first
+        setTimeout(() => {
+          showGameOver();
+        }, 4000);
+      }
+    });
+  </script>
 </BaseLayout>

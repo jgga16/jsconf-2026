@@ -25,7 +25,14 @@ const company = roleParts[1]?.trim() ?? '';
 const timeLabel = talk?.time?.start ?? '';
 ---
 
-<article class={locked ? 'card-wrap is-locked' : 'card-wrap'}>
+<article 
+  class={locked ? 'card-wrap is-locked' : 'card-wrap'}
+  data-talk-id={talk?.id}
+  data-avatar={avatarSrc}
+  data-speaker={speaker?.name || 'TBA'}
+  data-time-start={talk?.time?.start}
+  data-time-end={talk?.time?.end}
+>
   <div class="cartridge">
     <div class="case">
 
