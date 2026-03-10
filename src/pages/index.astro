@@ -1,21 +1,98 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CartridgeCard from '../components/CartridgeCard.astro';
+import GameBoy from '../components/GameBoy.astro';
 import { talksWithAssets, event } from '../lib/talks';
 
 // Render presentations as cartridges; skip non-content slots.
 const talks = talksWithAssets.filter((t) => t.type !== 'break' && t.type !== 'ceremony');
+
+// Hero speaker shown in the console monitor
+const heroIndex = 5;
+const heroTalk = talks[heroIndex] ?? talks[0];
+const heroAvatar = heroTalk?.assets?.avatar8bit ?? '/placeholders/avatar.svg';
+
+// Card rows matching the mockup layout: 3 + 4 + 4 locked
+const cardTalks = talks.filter((_, i) => i !== heroIndex);
+const firstRow = cardTalks.slice(0, 3);
+const secondRow = cardTalks.slice(3, 7);
+const lockedSlots = 4;
 ---
 
 <BaseLayout
   title={`${event.name} — Sopla el Cartucho`}
   description={`${event.name} (${event.date}) — ${event.venue}.`}
 >
-  <section aria-label="Talks">
-    <div class="grid">
-      {talks.map((talk) => (
-        <CartridgeCard talk={talk} />
-      ))}
+  <div class="desktop-wrap">
+    <div class="desktop-window pixel-frame">
+      <!-- Window chrome -->
+      <div class="window-chrome">
+        <div class="chrome-left">
+          <div class="chrome-left-inner">
+            <span class="chrome-star" aria-hidden="true">★</span>
+            <span class="chrome-menu">Back · Forward · Home · Reload</span>
+          </div>
+          <div class="chrome-buttons" aria-hidden="true">
+            <span class="btn-min">▬</span>
+            <span class="btn-max">☐</span>
+            <span class="btn-close">✕</span>
+          </div>
+        </div>
+        <div class="chrome-nav-row">
+          <span class="nav-arrows" aria-hidden="true">← → ⊕</span>
+          <div class="address-bar">https://www.retrogames.com</div>
+        </div>
+      </div>
+
+      <!-- Hero: nav + console (left) | title + first card row (right) -->
+      <section class="hero" id="home" aria-labelledby="site-title">
+        <div class="hero-left">
+          <nav class="side-nav" aria-label="Primary">
+            <a href="#home">HOME</a>
+            <a href="#about">ABOUT</a>
+            <a href="#speakers">SPEAKERS</a>
+            <a href="#contact">CONTACT</a>
+          </nav>
+
+          <GameBoy avatarSrc={heroAvatar} name={heroTalk?.speakers?.[0]?.name} />
+        </div>
+
+        <div class="hero-right">
+          <div class="hero-title">
+            <h1 id="site-title">Sopla el cartucho</h1>
+            <p class="event-name">{event.name}</p>
+          </div>
+
+          <div class="hero-cards" id="speakers">
+            {firstRow.map((talk) => (
+              <CartridgeCard talk={talk} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- Remaining speaker rows -->
+      <section class="speakers-panel" aria-label="More speakers">
+        <div class="cartridge-grid">
+          {secondRow.map((talk) => (
+            <CartridgeCard talk={talk} />
+          ))}
+        </div>
+
+        <div class="cartridge-grid locked-row" id="about">
+          {Array.from({ length: lockedSlots }).map(() => (
+            <CartridgeCard locked />
+          ))}
+        </div>
+      </section>
+
+      <footer class="site-footer" id="contact">
+        <p>© 2026 RETROGAMES</p>
+        <span aria-hidden="true">|</span>
+        <p>EMAIL</p>
+        <span aria-hidden="true">|</span>
+        <p>TERMS OF SERVICE</p>
+      </footer>
     </div>
-  </section>
+  </div>
 </BaseLayout>
