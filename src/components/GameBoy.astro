@@ -64,7 +64,7 @@ const dots = [
       </div>
 
       <div class="gb-label">
-        <span class="gb-title">GAME BOY</span>
+        <span class="gb-title">JS BOY</span>
         <span class="gb-subtitle">
           <span class="lc">C</span><span class="lo1">O</span><span class="ll">L</span><span class="lo2">O</span><span class="lr">R</span>
         </span>
@@ -72,7 +72,7 @@ const dots = [
 
     </div>
 
-    <div class="nintendo-label">Nintendo</div>
+    <div class="nintendo-label">JSConf</div>
 
     <div class="controls">
       <div class="dpad">
@@ -501,8 +501,8 @@ const dots = [
      Nintendo badge
   ───────────────────────────────────────────────── */
   .nintendo-label {
-    padding: 0 5px;
-    width: 82px;
+    display: inline-block;
+    padding: 0 10px;
     color: #3436bf;
     font-weight: bold;
     text-align: center;
@@ -511,6 +511,10 @@ const dots = [
     border-radius: 11px;
     text-shadow: 0px -2px 1px #6b67ed;
     box-shadow: 0px -2px 1px #6b67ed;
+    width: fit-content;
+    left: 50%;
+    transform: translateX(-50%);
+    position: relative;
   }
 
   /* ─────────────────────────────────────────────────
