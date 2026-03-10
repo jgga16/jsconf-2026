@@ -18,16 +18,14 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const baseLabel = (name) => name.split(' ')[0];
             const issue = context.payload.issue;
             const appliedLabel = context.payload.label.name;
-            const appliedBaseLabel = baseLabel(appliedLabel);
 
             // Namespaces with mutual exclusivity rules
             const EXCLUSIVE_PREFIXES = ['go:', 'release:', 'type:', 'priority:'];
 
             // Skip if not a managed namespace label
-            if (!EXCLUSIVE_PREFIXES.some(p => appliedBaseLabel.startsWith(p))) {
+            if (!EXCLUSIVE_PREFIXES.some(p => appliedLabel.startsWith(p))) {
               core.info(`Label ${appliedLabel} is not in a managed namespace — skipping`);
               return;
             }
@@ -35,9 +33,9 @@ jobs:
             const allLabels = issue.labels.map(l => l.name);
 
             // Handle go: namespace (mutual exclusivity)
-            if (appliedBaseLabel.startsWith('go:')) {
+            if (appliedLabel.startsWith('go:')) {
               const otherGoLabels = allLabels.filter(l => 
-                baseLabel(l).startsWith('go:') && l !== appliedLabel
+                l.startsWith('go:') && l !== appliedLabel
               );
 
               if (otherGoLabels.length > 0) {
@@ -62,15 +60,14 @@ jobs:
               }
 
               // Auto-apply release:backlog if go:yes and no release target
-              if (appliedBaseLabel === 'go:yes') {
-                const hasReleaseLabel = allLabels.some(l => baseLabel(l).startsWith('release:'));
+              if (appliedLabel === 'go:yes') {
+                const hasReleaseLabel = allLabels.some(l => l.startsWith('release:'));
                 if (!hasReleaseLabel) {
-                  const backlogLabel = allLabels.find(l => baseLabel(l) === 'release:backlog') || 'release:backlog 🧊';
                   await github.rest.issues.addLabels({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     issue_number: issue.number,
-                    labels: [backlogLabel]
+                    labels: ['release:backlog']
                   });
 
                   await github.rest.issues.createComment({
@@ -85,8 +82,8 @@ jobs:
               }
 
               // Remove release: labels if go:no
-              if (appliedBaseLabel === 'go:no') {
-                const releaseLabels = allLabels.filter(l => baseLabel(l).startsWith('release:'));
+              if (appliedLabel === 'go:no') {
+                const releaseLabels = allLabels.filter(l => l.startsWith('release:'));
                 if (releaseLabels.length > 0) {
                   for (const label of releaseLabels) {
                     await github.rest.issues.removeLabel({
@@ -102,9 +99,9 @@ jobs:
             }
 
             // Handle release: namespace (mutual exclusivity)
-            if (appliedBaseLabel.startsWith('release:')) {
+            if (appliedLabel.startsWith('release:')) {
               const otherReleaseLabels = allLabels.filter(l => 
-                baseLabel(l).startsWith('release:') && l !== appliedLabel
+                l.startsWith('release:') && l !== appliedLabel
               );
 
               if (otherReleaseLabels.length > 0) {
@@ -130,9 +127,9 @@ jobs:
             }
 
             // Handle type: namespace (mutual exclusivity)
-            if (appliedBaseLabel.startsWith('type:')) {
+            if (appliedLabel.startsWith('type:')) {
               const otherTypeLabels = allLabels.filter(l => 
-                baseLabel(l).startsWith('type:') && l !== appliedLabel
+                l.startsWith('type:') && l !== appliedLabel
               );
 
               if (otherTypeLabels.length > 0) {
@@ -156,9 +153,9 @@ jobs:
             }
 
             // Handle priority: namespace (mutual exclusivity)
-            if (appliedBaseLabel.startsWith('priority:')) {
+            if (appliedLabel.startsWith('priority:')) {
               const otherPriorityLabels = allLabels.filter(l => 
-                baseLabel(l).startsWith('priority:') && l !== appliedLabel
+                l.startsWith('priority:') && l !== appliedLabel
               );
 
               if (otherPriorityLabels.length > 0) {

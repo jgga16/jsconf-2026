@@ -67,42 +67,40 @@ jobs:
             const MEMBER_COLOR = '9B8FCC';
             const COPILOT_COLOR = '10b981';
 
-            const withEmoji = (base, emoji) => `${base} ${emoji}`;
-
             // Define go: and release: labels (static)
             const GO_LABELS = [
-              { name: withEmoji('go:yes', '✅'), color: '0E8A16', description: 'Ready to implement' },
-              { name: withEmoji('go:no', '⛔'), color: 'B60205', description: 'Not pursuing' },
-              { name: withEmoji('go:needs-research', '🔎'), color: 'FBCA04', description: 'Needs investigation' }
+              { name: 'go:yes', color: '0E8A16', description: 'Ready to implement' },
+              { name: 'go:no', color: 'B60205', description: 'Not pursuing' },
+              { name: 'go:needs-research', color: 'FBCA04', description: 'Needs investigation' }
             ];
 
             const RELEASE_LABELS = [
-              { name: withEmoji('release:v0.4.0', '🕹️'), color: '6B8EB5', description: 'Targeted for v0.4.0' },
-              { name: withEmoji('release:v0.5.0', '🎮'), color: '6B8EB5', description: 'Targeted for v0.5.0' },
-              { name: withEmoji('release:v0.6.0', '📼'), color: '8B7DB5', description: 'Targeted for v0.6.0' },
-              { name: withEmoji('release:v1.0.0', '🚀'), color: '8B7DB5', description: 'Targeted for v1.0.0' },
-              { name: withEmoji('release:backlog', '🧊'), color: 'D4E5F7', description: 'Not yet targeted' }
+              { name: 'release:v0.4.0', color: '6B8EB5', description: 'Targeted for v0.4.0' },
+              { name: 'release:v0.5.0', color: '6B8EB5', description: 'Targeted for v0.5.0' },
+              { name: 'release:v0.6.0', color: '8B7DB5', description: 'Targeted for v0.6.0' },
+              { name: 'release:v1.0.0', color: '8B7DB5', description: 'Targeted for v1.0.0' },
+              { name: 'release:backlog', color: 'D4E5F7', description: 'Not yet targeted' }
             ];
 
             const TYPE_LABELS = [
-              { name: withEmoji('type:feature', '✨'), color: 'DDD1F2', description: 'New capability' },
-              { name: withEmoji('type:bug', '🐛'), color: 'FF0422', description: 'Something broken' },
-              { name: withEmoji('type:spike', '🔬'), color: 'F2DDD4', description: 'Research/investigation — produces a plan, not code' },
-              { name: withEmoji('type:docs', '📝'), color: 'D4E5F7', description: 'Documentation work' },
-              { name: withEmoji('type:chore', '🧹'), color: 'D4E5F7', description: 'Maintenance, refactoring, cleanup' },
-              { name: withEmoji('type:epic', '🧭'), color: 'CC4455', description: 'Parent issue that decomposes into sub-issues' }
+              { name: 'type:feature', color: 'DDD1F2', description: 'New capability' },
+              { name: 'type:bug', color: 'FF0422', description: 'Something broken' },
+              { name: 'type:spike', color: 'F2DDD4', description: 'Research/investigation — produces a plan, not code' },
+              { name: 'type:docs', color: 'D4E5F7', description: 'Documentation work' },
+              { name: 'type:chore', color: 'D4E5F7', description: 'Maintenance, refactoring, cleanup' },
+              { name: 'type:epic', color: 'CC4455', description: 'Parent issue that decomposes into sub-issues' }
             ];
 
             // High-signal labels — these MUST visually dominate all others
             const SIGNAL_LABELS = [
-              { name: 'bug 🐛', color: 'FF0422', description: 'Something isn\'t working' },
-              { name: 'feedback 💬', color: '00E5FF', description: 'User feedback — high signal, needs attention' }
+              { name: 'bug', color: 'FF0422', description: 'Something isn\'t working' },
+              { name: 'feedback', color: '00E5FF', description: 'User feedback — high signal, needs attention' }
             ];
 
             const PRIORITY_LABELS = [
-              { name: withEmoji('priority:p0', '🔥'), color: 'B60205', description: 'Blocking release' },
-              { name: withEmoji('priority:p1', '⏱️'), color: 'D93F0B', description: 'This sprint' },
-              { name: withEmoji('priority:p2', '📌'), color: 'FBCA04', description: 'Next sprint' }
+              { name: 'priority:p0', color: 'B60205', description: 'Blocking release' },
+              { name: 'priority:p1', color: 'D93F0B', description: 'This sprint' },
+              { name: 'priority:p2', color: 'FBCA04', description: 'Next sprint' }
             ];
 
             // Ensure the base "squad" triage label exists
