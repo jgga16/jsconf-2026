@@ -22,6 +22,7 @@ const avatarSrc = rawAvatar.startsWith('/') ? `${base}${rawAvatar}` : rawAvatar;
 const roleParts = (speaker?.role || '').split('@');
 const roleLabel = roleParts[0].trim();
 const company = roleParts[1]?.trim() ?? '';
+const timeLabel = talk?.time?.start ?? '';
 ---
 
 <article class={locked ? 'card-wrap is-locked' : 'card-wrap'}>
@@ -64,7 +65,7 @@ const company = roleParts[1]?.trim() ?? '';
                 <span class="speaker-role">
                   {roleLabel}{company ? ` · ${company}` : ''}
                 </span>
-                <span class="rev">REV.1</span>
+                <span class="rev">{timeLabel}</span>
               </div>
             </>
           )}

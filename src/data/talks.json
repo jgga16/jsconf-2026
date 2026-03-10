@@ -133,29 +133,29 @@
       ],
       "time": {
         "start": "11:45",
-        "end": "12:25"
+        "end": "12:30"
       },
       "type": "talk",
       "language": "en",
       "tags": []
     },
     {
-      "id": "tbd",
-      "title": "TBD",
+      "id": "code-mode-let-the-code-do-the-talking",
+      "title": "Code Mode: let the code do the talking",
       "description": "Workers, integración de IA y el edge en el futuro de la web",
       "speakers": [
         {
-          "name": "Rita Kozlov",
-          "role": "VP Developers & AI @Cloudflare",
-          "avatarUrl": "https://www.jsconf.es/img/rita-kozlov.webp"
+          "name": "Sunil Pai",
+          "role": "Principal Systems Engineer @Cloudflare",
+          "avatarUrl": "https://www.jsconf.es/img/sunil-pai.webp"
         }
       ],
       "time": {
-        "start": "12:25",
+        "start": "12:30",
         "end": "13:00"
       },
       "type": "talk",
-      "language": "es",
+      "language": "en",
       "tags": []
     },
     {
