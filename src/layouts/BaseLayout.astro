@@ -24,16 +24,8 @@ const { title, description } = Astro.props;
       rel="stylesheet"
     />
   </head>
-
-  <body class="crt">
-    <header class="site-header container">
-      <h1 class="site-title neon" data-text="Sopla el Cartucho">Sopla el Cartucho</h1>
-      <p class="site-subtitle">
-        JSConf España 2026 agenda, reimaginada como cartuchos retro.
-      </p>
-    </header>
-
-    <main class="container">
+    <body class="crt">
+    <main>
       <slot />
     </main>
   </body>
