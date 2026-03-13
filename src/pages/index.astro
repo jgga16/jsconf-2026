@@ -240,24 +240,41 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
         (card as HTMLElement).style.cursor = 'pointer';
       });
 
-      // On load: select current talk or show GAME OVER
-      // Debug: add ?gameover=true to URL to force GAME OVER state
-      const urlParams = new URLSearchParams(window.location.search);
-      const forceGameOver = urlParams.get('gameover') === 'true';
-      
-      const currentTalk = forceGameOver ? null : getCurrentTalk();
+      // Al cargar: seleccionar charla actual si existe
+      const currentTalk = getCurrentTalk();
       if (currentTalk) {
         selectCartridge(currentTalk, false);
       } else {
-        // No talk in progress - GAME OVER!
+        // Sin charla en curso: ocultar la imagen del screen (no mostrar ningún speaker)
+        screen.style.opacity = '0';
+        // Seleccionar el primer cartucho visualmente, sin sonido
         const firstCard = cartridges[0] as HTMLElement;
         if (firstCard) {
           firstCard.classList.add('is-selected');
         }
-        // Delay to let boot animation complete first
-        setTimeout(() => {
-          showGameOver();
-        }, 4000);
+      }
+
+      // GAME OVER solo se muestra al intentar encender la consola
+      // sin tener una charla en curso (ni haber seleccionado un cartucho manualmente)
+      let cartridgeManuallySelected = !!currentTalk;
+
+      cartridges.forEach(card => {
+        card.addEventListener('click', () => {
+          cartridgeManuallySelected = true;
+        });
+      });
+
+      const powerBtn = document.querySelector('.gb-wrap .power');
+      if (powerBtn) {
+        powerBtn.addEventListener('click', () => {
+          if (!cartridgeManuallySelected && !getCurrentTalk()) {
+            // Mostrar GAME OVER justo cuando termina la animación de boot (~3.4s)
+            // para que nunca se vea el avatar vacío
+            setTimeout(() => {
+              showGameOver();
+            }, 3400);
+          }
+        });
       }
     });
   </script>
