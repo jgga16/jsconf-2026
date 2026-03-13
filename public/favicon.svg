@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">JS BOY favicon</title>
+  <desc id="desc">Una mini consola retro pixel art inspirada en la JS BOY de la portada.</desc>
+  <rect x="12" y="6" width="40" height="50" rx="6" fill="#1f2155" />
+  <rect x="14" y="4" width="36" height="52" rx="5" fill="#4f50db" />
+  <rect x="18" y="10" width="28" height="22" rx="2" fill="#23252d" />
+  <rect x="21" y="13" width="22" height="16" fill="#d7d26c" />
+  <rect x="23" y="15" width="18" height="12" fill="#b9c457" />
+  <rect x="16" y="12" width="1" height="1" fill="#ca1a21" />
+  <rect x="22" y="38" width="8" height="2" fill="#23252d" />
+  <rect x="25" y="35" width="2" height="8" fill="#23252d" />
+  <rect x="37" y="36" width="4" height="4" fill="#7c2358" />
+  <rect x="42" y="39" width="4" height="4" fill="#7c2358" />
+  <rect x="28" y="46" width="8" height="2" rx="1" fill="#23252d" opacity="0.85" />
+  <rect x="38" y="46" width="8" height="2" rx="1" fill="#23252d" opacity="0.85" />
+  <rect x="20" y="8" width="24" height="1" fill="#8587f3" opacity="0.75" />
+</svg>
