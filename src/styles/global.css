@@ -401,12 +401,7 @@ main {
   }
 }
 
-@media (max-width: 860px) {
-  /* Ocultar QR en móvil/tablet: el QR es para escanear desde otro dispositivo */
-  .qr-code-wrapper {
-    display: none;
-  }
-
+@media (max-width: 1024px) {
   .hero-right {
     gap: 12px;
   }
@@ -505,6 +500,13 @@ main {
   color: var(--muted);
   margin-top: 6px;
   text-align: center;
+}
+
+/* Ocultar QR en móvil/tablet: el QR es para escanear desde otro dispositivo */
+@media (max-width: 1024px) {
+  .qr-code-wrapper {
+    display: none;
+  }
 }
 
 /* ─────────────────────────────────────────────────

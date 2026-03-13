@@ -221,8 +221,13 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
           }, 150);
         }
 
-        // Scroll cartridge into view if needed
-        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // En mobile, scroll hacia la consola para que se vea el resultado
+        if (window.innerWidth <= 1024 && display) {
+          display.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          // En desktop, scroll el cartucho a la vista si es necesario
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       }
 
       // Add click handlers to all cartridges
