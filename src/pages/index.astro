@@ -84,9 +84,33 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
       `;
       display.appendChild(gameOverOverlay);
 
+      // Shared AudioContext — created once on first user gesture to comply
+      // with browser autoplay policies (Chrome, Safari, Firefox)
+      let sharedAudioCtx: AudioContext | null = null;
+
+      function getAudioContext(): AudioContext | null {
+        if (!sharedAudioCtx) {
+          try {
+            sharedAudioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+          } catch (_) {
+            return null;
+          }
+        }
+        return sharedAudioCtx;
+      }
+
+      // Unlock audio on first interaction so game-over sound can also play
+      document.addEventListener('click', function unlockAudio() {
+        const ctx = getAudioContext();
+        if (ctx && ctx.state === 'suspended') ctx.resume();
+        document.removeEventListener('click', unlockAudio, true);
+      }, true);
+
       // 8-bit Game Over sound using Web Audio API
       function playGameOverSound() {
-        const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const audioCtx = getAudioContext();
+        if (!audioCtx || audioCtx.state !== 'running') return;
+
         const notes = [523, 392, 330, 262]; // C5, G4, E4, C4 - descending
         const duration = 0.2;
         
@@ -108,28 +132,39 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
         });
       }
 
-      // Play "cartridge inserted" sound
+      // Play "cartridge inserted" sound — always called from a click handler
       function playInsertSound() {
-        const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
-        const notes = [262, 330, 392, 523]; // C4, E4, G4, C5 - ascending (victory!)
-        const duration = 0.1;
-        
-        notes.forEach((freq, i) => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
+        const audioCtx = getAudioContext();
+        if (!audioCtx) return;
+
+        const play = () => {
+          const notes = [262, 330, 392, 523]; // C4, E4, G4, C5 - ascending (victory!)
+          const duration = 0.1;
           
-          osc.type = 'square';
-          osc.frequency.value = freq;
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          
-          const startTime = audioCtx.currentTime + (i * duration);
-          gain.gain.setValueAtTime(0.08, startTime);
-          gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
-          
-          osc.start(startTime);
-          osc.stop(startTime + duration);
-        });
+          notes.forEach((freq, i) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.type = 'square';
+            osc.frequency.value = freq;
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            const startTime = audioCtx.currentTime + (i * duration);
+            gain.gain.setValueAtTime(0.08, startTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+            
+            osc.start(startTime);
+            osc.stop(startTime + duration);
+          });
+        };
+
+        // Resume context if it was created before a user gesture (suspended state)
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume().then(play);
+        } else {
+          play();
+        }
       }
 
       // Show GAME OVER state

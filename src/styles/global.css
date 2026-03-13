@@ -349,6 +349,8 @@ main {
 
   .hero {
     grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 18px 18px 14px;
   }
 
   .hero-left {
@@ -363,9 +365,31 @@ main {
     justify-content: center;
   }
 
-  .console-stage {
-    width: 240px;
-    min-height: 230px;
+  .hero-title-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding-right: 0;
+    margin-bottom: 12px;
+  }
+
+  .hero-title {
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto;
+    padding-top: 0;
+    text-align: center;
+  }
+
+  .hero-title h1 {
+    margin-bottom: 18px;
+    font-size: clamp(1.7rem, 6vw, 2.5rem);
+    line-height: 1.2;
+  }
+
+  .event-name {
+    display: block;
+    font-size: clamp(0.85rem, 3vw, 1.15rem);
   }
 
   .hero-cards {
@@ -374,6 +398,25 @@ main {
 
   .cartridge-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  /* Ocultar QR en móvil/tablet: el QR es para escanear desde otro dispositivo */
+  .qr-code-wrapper {
+    display: none;
+  }
+
+  .hero-right {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+
+  /* Simplificar chrome del navegador en móvil */
+  .chrome-menu {
+    display: none;
   }
 }
 
@@ -388,6 +431,33 @@ main {
     grid-template-columns: 1fr;
   }
 
+  /* Reducir tamaño de título en pantallas muy pequeñas */
+  .hero-title {
+    max-width: 280px;
+  }
+
+  .hero-title h1 {
+    font-size: clamp(1.2rem, 5.8vw, 1.7rem);
+    margin-bottom: 10px;
+    line-height: 1.15;
+  }
+
+  .event-name {
+    font-size: clamp(0.65rem, 3.2vw, 0.9rem);
+  }
+
+  .hero {
+    gap: 24px;
+    padding-inline: 12px;
+  }
+
+  .hero-left {
+    justify-content: center;
+  }
+
+  .desktop-wrap {
+    padding: 6px;
+  }
 }
 
 /* ─────────────────────────────────────────────────
@@ -527,21 +597,7 @@ main {
 
 @media (max-width: 768px) {
   .hero-title-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .qr-code-wrapper {
-    padding: 8px;
-    align-self: center;
-  }
-  
-  .qr-code {
-    width: 100px;
-    height: 100px;
-  }
-
-  .qr-label {
-    font-size: 8px;
+    align-items: center;
   }
 }
+
