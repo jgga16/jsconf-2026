@@ -286,6 +286,15 @@ main {
   text-shadow: 1px 1px 0 rgba(200, 220, 255, 0.4);
 }
 
+.hero-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 20px;
+  padding-right: 80px;
+}
+
 .hero-cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -348,41 +357,51 @@ main {
   }
 
   .hero {
+    display: grid;
     grid-template-columns: 1fr;
-    gap: 30px;
+    grid-template-areas:
+      "console"
+      "title"
+      "cards";
+    gap: 20px;
     padding: 18px 18px 14px;
   }
 
   .hero-left {
+    grid-area: console;
     flex-direction: column;
     align-items: center;
     gap: 14px;
   }
 
-  .side-nav {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
+  /* Extraer hijos de hero-right para usar grid areas */
+  .hero-right {
+    display: contents;
   }
 
   .hero-title-row {
+    grid-area: title;
+    display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 16px;
     padding-right: 0;
-    margin-bottom: 12px;
+    padding-left: 0;
+    margin-bottom: 0;
   }
 
   .hero-title {
-    width: 100%;
-    max-width: 340px;
-    margin: 0 auto;
+    width: auto;
+    max-width: none;
+    margin: 0;
     padding-top: 0;
     text-align: center;
   }
 
   .hero-title h1 {
-    margin-bottom: 18px;
+    margin-bottom: 12px;
     font-size: clamp(1.7rem, 6vw, 2.5rem);
     line-height: 1.2;
   }
@@ -393,7 +412,14 @@ main {
   }
 
   .hero-cards {
+    grid-area: cards;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .side-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .cartridge-grid {
@@ -426,9 +452,9 @@ main {
     grid-template-columns: 1fr;
   }
 
-  /* Reducir tamaño de título en pantallas muy pequeñas */
+  /* Permitir que el contenedor del título use todo el ancho en pantallas muy pequeñas */
   .hero-title {
-    max-width: 280px;
+    max-width: none;
   }
 
   .hero-title h1 {
@@ -450,6 +476,11 @@ main {
     justify-content: center;
   }
 
+  .hero-title-row {
+    padding-right: 0;
+    justify-content: center;
+  }
+
   .desktop-wrap {
     padding: 6px;
   }
@@ -458,14 +489,6 @@ main {
 /* ─────────────────────────────────────────────────
    QR Code junto al título
 ───────────────────────────────────────────────── */
-.hero-title-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 30px;
-  margin-bottom: 20px;
-  padding-right: 80px;
-}
 
 .qr-code-wrapper {
   background: var(--panel);
