@@ -3,7 +3,44 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-const demos = [
+type Demo = {
+  emoji: string;
+  title: string;
+  description: string;
+  link: string;
+  number: string;
+  thumbnail?: string;
+  bonus?: boolean;
+  comingSoon?: boolean;
+};
+
+function youtubeVideoIdFromUrl(url: string) {
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname === 'youtu.be') return parsed.pathname.slice(1);
+
+    if (parsed.hostname.includes('youtube.com')) {
+      const watchId = parsed.searchParams.get('v');
+      if (watchId) return watchId;
+
+      const parts = parsed.pathname.split('/');
+      const embedIndex = parts.findIndex((part) => part === 'embed');
+      if (embedIndex !== -1 && parts[embedIndex + 1]) return parts[embedIndex + 1];
+    }
+  } catch {
+    // ignore malformed urls
+  }
+
+  return undefined;
+}
+
+function youtubeThumbnail(url: string, quality: 'maxresdefault' | 'hqdefault' = 'maxresdefault') {
+  const id = youtubeVideoIdFromUrl(url);
+  if (!id) return undefined;
+  return `https://i.ytimg.com/vi/${id}/${quality}.jpg`;
+}
+
+const demos: Demo[] = [
   {
     emoji: '🤖',
     title: 'Squad',
@@ -16,7 +53,7 @@ const demos = [
     title: 'Agentic Browser Tool',
     description: 'Herramienta de navegador agéntico para GitHub Copilot CLI.',
     link: 'https://youtu.be/ccj7ok6s3hA',
-    thumbnail: `${base}/assets/demos/agentic-browser-tool.jpg`,
+    thumbnail: youtubeThumbnail('https://youtu.be/ccj7ok6s3hA') ?? `${base}/assets/demos/agentic-browser-tool.jpg`,
     number: '02',
   },
   {
