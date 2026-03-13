@@ -4,5 +4,5 @@
     "types": ["astro/client"]
   },
   "include": ["src"],
-  "exclude": [".squad", "dist", "node_modules", ".astro", "squad.config.ts", "scripts-*.mjs", "test"]
+  "exclude": ["dist", "node_modules", ".astro", "scripts-*.mjs", "test"]
 }
