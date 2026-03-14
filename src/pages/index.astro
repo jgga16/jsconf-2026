@@ -1,26 +1,24 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CartridgeCard from '../components/CartridgeCard.astro';
+import BreakCartridge from '../components/BreakCartridge.astro';
 import Console from '../components/Console.astro';
 import { talksWithAssets, event } from '../lib/talks';
 
-// Render presentations as cartridges; skip breaks and ceremonies without speakers
-const talks = talksWithAssets.filter((t) => {
-  if (t.type === 'break') return false;
-  if (t.type === 'ceremony' && (!t.speakers || t.speakers.length === 0)) return false;
-  return true;
-});
+// Talks to display as cartridges; skip ceremonies sin ponentes pero conservar breaks
+const cartridgeTalks = talksWithAssets.filter((t) => !(t.type === 'ceremony' && (!t.speakers || t.speakers.length === 0)));
 
 // Hero speaker shown in the console monitor
 const heroIndex = 0;
-const heroTalk = talks[heroIndex] ?? talks[0];
+const heroCandidates = cartridgeTalks.filter((t) => t.type !== 'break');
+const heroTalk = heroCandidates[heroIndex] ?? heroCandidates[0] ?? cartridgeTalks[0];
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const rawHeroAvatar = heroTalk?.assets?.avatar8bit ?? '/placeholders/avatar.svg';
 const heroAvatar = rawHeroAvatar.startsWith('/') ? `${base}${rawHeroAvatar}` : rawHeroAvatar;
 
 // Card rows: show ALL talks including hero (hero will also be a cartridge)
-const firstRow = talks.slice(0, 3);
-const remainingTalks = talks.slice(3);
+const firstRow = cartridgeTalks.slice(0, 3);
+const remainingTalks = cartridgeTalks.slice(3);
 
 const qrCodeSrc = `${base}/assets/qr-code.png`;
 ---
@@ -50,7 +48,7 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
 
       <div class="hero-cards" id="speakers">
         {firstRow.map((talk) => (
-          <CartridgeCard talk={talk} />
+          talk.type === 'break' ? <BreakCartridge talk={talk} /> : <CartridgeCard talk={talk} />
         ))}
       </div>
     </div>
@@ -60,7 +58,7 @@ const qrCodeSrc = `${base}/assets/qr-code.png`;
   <section class="speakers-panel" aria-label="More speakers">
     <div class="cartridge-grid">
       {remainingTalks.map((talk) => (
-        <CartridgeCard talk={talk} />
+        talk.type === 'break' ? <BreakCartridge talk={talk} /> : <CartridgeCard talk={talk} />
       ))}
     </div>
   </section>

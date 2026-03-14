@@ -1,5 +1,6 @@
 export type TalkType = 'talk' | 'break' | 'ceremony' | 'lightning';
 export type TalkLanguage = 'es' | 'en';
+export type BreakType = 'coffee' | 'breakfast' | 'lunch' | 'networking' | 'generic';
 
 export type Speaker = {
   name: string;
@@ -19,6 +20,7 @@ export type Talk = {
   type: TalkType;
   language: TalkLanguage;
   tags: string[];
+  breakType?: BreakType;
 
   // Optional metadata (not part of the canonical schema yet).
   room?: string;
