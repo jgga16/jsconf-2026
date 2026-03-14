@@ -1,0 +1,494 @@
+---
+/*
+ * Break cartridge design based on CartridgeCard.astro
+ * Shows power-up style breaks with retro game aesthetics
+ */
+import type { TalkWithAssets } from '../types/talk';
+
+type Props = {
+  talk?: TalkWithAssets;
+};
+
+const { talk } = Astro.props;
+
+const breakCategory = talk?.breakCategory ?? 'coffee';
+const timeLabel = talk?.time?.start ?? '';
+
+// Power-up colors and icons based on break category
+const breakStyles = {
+  coffee: {
+    color: '#4a9d5f',
+    colorDark: '#3a7d4f',
+    colorDarker: '#2a6d3f',
+    icon: '☕',
+    label: 'RECARGA CAFEÍNA'
+  },
+  breakfast: {
+    color: '#e8b84d',
+    colorDark: '#c89830',
+    colorDarker: '#a87820',
+    icon: '🥐',
+    label: 'POWER-UP DESAYUNO'
+  },
+  lunch: {
+    color: '#d84a4a',
+    colorDark: '#b83a3a',
+    colorDarker: '#982a2a',
+    icon: '🍕',
+    label: 'RECARGA ENERGÍA'
+  },
+  networking: {
+    color: '#8a5aa8',
+    colorDark: '#6a4a88',
+    colorDarker: '#5a3a78',
+    icon: '⭐',
+    label: 'BONUS NETWORKING'
+  }
+};
+
+const style = breakStyles[breakCategory];
+---
+
+<article
+  class="card-wrap break-cartridge"
+  data-talk-id={talk?.id}
+  data-time-start={talk?.time?.start}
+  data-time-end={talk?.time?.end}
+  data-break-category={breakCategory}
+>
+  <div class="cartridge">
+    <div class="case">
+
+      <!-- Front face -->
+      <div class="front">
+        <div class="base tall"></div>
+        <div class="base wide"></div>
+        <div class="linebase"></div>
+        <div class="line one"></div>
+        <div class="line two"></div>
+        <div class="line three"></div>
+        <div class="line four"></div>
+        <div class="leftindent"></div>
+        <div class="rightindent"></div>
+        <div class="oval"></div>
+        <div class="label">
+          <div class="power-up-content">
+            <div class="power-up-icon" aria-hidden="true">{style.icon}</div>
+            <h2 class="break-title">{talk?.title}</h2>
+            <p class="break-label">{style.label}</p>
+            <div class="energy-bar">
+              <div class="energy-fill"></div>
+              <div class="energy-fill"></div>
+              <div class="energy-fill"></div>
+            </div>
+            <span class="time-badge">{timeLabel}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back face -->
+      <div class="back">
+        <div class="base tall"></div>
+        <div class="base wide"></div>
+        <div class="line one"></div>
+        <div class="line two"></div>
+        <div class="line three"></div>
+        <div class="line four"></div>
+      </div>
+
+      <!-- Right side -->
+      <div class="rightside">
+        <div class="top"></div>
+        <div class="bottom"></div>
+        <div class="line one"></div>
+        <div class="ceiling one"></div>
+        <div class="floor one"></div>
+        <div class="line two"></div>
+        <div class="ceiling two"></div>
+        <div class="floor two"></div>
+        <div class="line three"></div>
+        <div class="ceiling three"></div>
+        <div class="floor three"></div>
+        <div class="line four"></div>
+        <div class="ceiling four"></div>
+        <div class="floor four"></div>
+      </div>
+
+      <!-- Left side -->
+      <div class="leftside">
+        <div class="bottom"></div>
+        <div class="line one"></div>
+        <div class="ceiling one"></div>
+        <div class="floor one"></div>
+        <div class="line two"></div>
+        <div class="ceiling two"></div>
+        <div class="floor two"></div>
+        <div class="line three"></div>
+        <div class="ceiling three"></div>
+        <div class="floor three"></div>
+        <div class="line four"></div>
+        <div class="ceiling four"></div>
+        <div class="floor four"></div>
+      </div>
+
+      <!-- Top side -->
+      <div class="topside">
+        <div class="left"></div>
+        <div class="right"></div>
+      </div>
+
+      <!-- Bottom side -->
+      <div class="bottomside">
+        <div class="side"></div>
+      </div>
+
+    </div>
+  </div>
+</article>
+
+<style define:vars={{
+  breakColor: style.color,
+  breakColorDark: style.colorDark,
+  breakColorDarker: style.colorDarker
+}}>
+  /* ── Dimensions & palette (scoped to component) ───── */
+  .card-wrap {
+    --cw: 196px;
+    --ch: 225px;   /* cw × 1.15 */
+    --cd: 20px;    /* cw × 0.1  */
+    --cd2: 10px;   /* cd / 2    */
+
+    --c-base:    var(--breakColor);
+    --c-dark:    var(--breakColorDark);
+    --c-darker:  var(--breakColorDarker);
+    --c-label-bg: #1a2640;
+  }
+
+  /* ── Cell wrapper ─────────────────────────────────── */
+  .card-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    padding: 24px 36px;   /* room for 3D overflow + tilt */
+  }
+
+  /* ── Cartridge container ──────────────────────────── */
+  .cartridge {
+    position: relative;
+    display: inline-block;
+    width: var(--cw);
+    height: var(--ch);
+    perspective: 900px;
+    transform-style: preserve-3d;
+    flex-shrink: 0;
+  }
+
+  .case {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    transform-style: preserve-3d;
+    /* Show front + right edge by default */
+    transform: rotateY(-22deg) rotateX(10deg);
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .card-wrap:hover .case {
+    transform: rotateY(-8deg) rotateX(4deg);
+  }
+
+  /* ── Front / Back ─────────────────────────────────── */
+  .front,
+  .back {
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+  }
+
+  .front .base,
+  .back .base {
+    background-color: var(--c-base);
+    position: absolute;
+  }
+
+  .front .tall,
+  .back .tall {
+    height: 50%;
+    width: 90%;
+    top: 0;
+    left: 0;
+  }
+
+  .front .wide,
+  .back .wide {
+    height: 95%;
+    width: 100%;
+    bottom: 0;
+    right: 0;
+  }
+
+  /* Horizontal stripe with grooves */
+  .front .linebase {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 100%;
+    height: 15%;
+    top: 9%;
+    left: 0;
+  }
+
+  .front .line,
+  .back .line {
+    position: absolute;
+    background-color: var(--c-base);
+    width: 104%;
+    left: -2%;
+    height: calc(15% / 9);
+  }
+
+  /* Vertical indent rails */
+  .front .leftindent,
+  .front .rightindent {
+    position: absolute;
+    height: 65%;
+    width: 2%;
+    bottom: 0;
+    background-color: var(--c-dark);
+  }
+
+  .front .rightindent {
+    right: 0;
+  }
+
+  /* Top oval cutout */
+  .front .oval {
+    position: absolute;
+    width: 75%;
+    height: 15%;
+    background-color: var(--c-dark);
+    border: calc(var(--cw) / 50) solid var(--c-base);
+    border-radius: 9999px;
+    left: calc(12.5% - 2%);
+    top: 7%;
+  }
+
+  /* ── Label (power-up content area) ────────────────── */
+  .front .label {
+    position: absolute;
+    height: calc(var(--cw) * 0.75);
+    width: 70%;
+    bottom: 7%;
+    left: calc(15% - 1%);
+    border: calc(var(--cw) / 100) solid rgba(0, 0, 0, 0.4);
+    border-radius: calc(var(--cw) / 50);
+    overflow: hidden;
+    padding: 8px;
+    background:
+      linear-gradient(160deg, #22375e 0%, #0f1a30 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .power-up-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 4px;
+    text-align: center;
+  }
+
+  .power-up-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.6));
+    animation: float 2s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .break-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.52rem;
+    line-height: 1.4;
+    color: #f5d060;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
+    word-break: break-word;
+  }
+
+  .break-label {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.42rem;
+    line-height: 1.2;
+    color: #a8c8e8;
+    letter-spacing: 0.05em;
+  }
+
+  .energy-bar {
+    display: flex;
+    gap: 4px;
+    margin: 2px 0;
+    justify-content: center;
+  }
+
+  .energy-fill {
+    width: 20px;
+    height: 8px;
+    background: linear-gradient(180deg, #4aff4a 0%, #2ada2a 100%);
+    border: 1px solid #0a6a0a;
+    box-shadow: 0 0 4px rgba(74, 255, 74, 0.6);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  .energy-fill:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .energy-fill:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .time-badge {
+    font-family: var(--font-display);
+    font-size: 0.42rem;
+    background: #1e6e3a;
+    color: #c8f0b0;
+    padding: 2px 8px;
+    border: 1px solid #0f3a1e;
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+    margin-top: auto;
+  }
+
+  /* ── translateZ for front/back ────────────────────── */
+  .front {
+    transform: translateZ(var(--cd2));
+  }
+
+  .back {
+    transform: translateZ(calc(-1 * var(--cd2)));
+  }
+
+  /* ── Groove line positions (shared by front, back, sides) */
+  .one   { top: calc(9% + (15% / 9) * 1); }
+  .two   { top: calc(9% + (15% / 9) * 3); }
+  .three { top: calc(9% + (15% / 9) * 5); }
+  .four  { top: calc(9% + (15% / 9) * 7); }
+
+  /* ── Right / Left sides ───────────────────────────── */
+  .rightside,
+  .leftside {
+    position: absolute;
+    width: var(--cd);
+    height: 100%;
+    bottom: 0;
+    transform-style: preserve-3d;
+    transform: rotateY(90deg);
+  }
+
+  .rightside {
+    right: calc(-1 * var(--cd2));
+  }
+
+  .leftside {
+    left: calc(-1 * var(--cd2));
+  }
+
+  .rightside .top {
+    position: absolute;
+    background-color: var(--c-darker);
+    width: 100%;
+    height: 5%;
+    transform: translateZ(calc(-1 * var(--cd)));
+  }
+
+  .rightside .bottom,
+  .leftside .bottom {
+    position: absolute;
+    bottom: 0;
+    background-color: var(--c-dark);
+    width: 100%;
+  }
+
+  .rightside .bottom { height: 95%; }
+  .leftside  .bottom { height: 100%; }
+
+  .rightside .line,
+  .leftside .line {
+    position: absolute;
+    background-color: var(--c-darker);
+    height: calc(15% / 9);
+    width: 100%;
+  }
+
+  .rightside .line { transform: translateZ(calc(var(--cw) * 0.02)); }
+  .leftside  .line { transform: translateZ(calc(-1 * var(--cw) * 0.02)); }
+
+  .rightside .floor,
+  .rightside .ceiling,
+  .leftside .floor,
+  .leftside .ceiling {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 100%;
+    height: calc(var(--cw) * 0.04);
+    transform: rotateX(90deg);
+  }
+
+  .rightside .ceiling,
+  .leftside .ceiling {
+    transform: translateY(calc(-1 * var(--ch) * 0.15 / 9)) rotateX(90deg);
+  }
+
+  /* ── Top side ─────────────────────────────────────── */
+  .topside {
+    position: absolute;
+    width: 100%;
+    height: var(--cd);
+    top: calc(-1 * var(--cd2));
+    transform: rotateX(90deg);
+    transform-style: preserve-3d;
+  }
+
+  .topside .left {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 90%;
+    height: 100%;
+  }
+
+  .topside .right {
+    position: absolute;
+    background-color: var(--c-darker);
+    width: 10%;
+    height: 100%;
+    right: 0;
+    transform: translateZ(calc(-1 * var(--ch) * 0.05));
+  }
+
+  /* ── Bottom side (connector edge) ────────────────── */
+  .bottomside {
+    position: absolute;
+    background-color: #1e1e1e;
+    bottom: calc(-1 * var(--cd2));
+    height: calc(var(--cd) / 2);
+    width: calc(var(--cw) - var(--cd2));
+    transform: rotateX(90deg);
+    border: calc(var(--cw) * 0.025) solid var(--c-darker);
+  }
+</style>
