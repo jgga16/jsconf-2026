@@ -1,0 +1,469 @@
+---
+/*
+ * BreakCartridge — power-up variant of CartridgeCard for break/rest events.
+ * Shares the Game Boy cartridge 3-D structure; replaces the speaker label
+ * with a retro power-up icon and energy-bar animation.
+ *
+ * Cartridge base design by Van Huynh (MIT)
+ * https://codepen.io/worksbyvan/pen/MoxroE
+ */
+import type { TalkWithAssets } from '../types/talk';
+import type { BreakCategory } from '../types/talk';
+
+type Props = {
+  talk: TalkWithAssets;
+};
+
+const { talk } = Astro.props;
+
+const category: BreakCategory = talk.breakCategory ?? 'coffee';
+
+const config: Record<BreakCategory, { icon: string; label: string; color: string; dark: string; darker: string; accent: string; glow: string }> = {
+  coffee:     { icon: '☕', label: 'RECARGAR',  color: '#4a9d5f', dark: '#357248', darker: '#265438', accent: '#b6f0c8', glow: '#4a9d5f' },
+  breakfast:  { icon: '🥐', label: 'DESAYUNO',  color: '#c89a2a', dark: '#9a7520', darker: '#735816', accent: '#f5e0a0', glow: '#e8b84d' },
+  lunch:      { icon: '🥪', label: 'ALMUERZO',  color: '#d84a4a', dark: '#a83535', darker: '#7a2525', accent: '#f0b0b0', glow: '#d84a4a' },
+  networking: { icon: '⭐', label: 'NETWORKING', color: '#8a5aa8', dark: '#6a4285', darker: '#4e3060', accent: '#d4b0f0', glow: '#8a5aa8' },
+};
+
+const { icon, label, color, dark, darker, accent, glow } = config[category];
+const timeLabel = talk.time.start;
+const endLabel  = talk.time.end;
+---
+
+<article
+  class="card-wrap break-cartridge"
+  data-talk-id={talk.id}
+  data-avatar="/placeholders/avatar.svg"
+  data-speaker={label}
+  data-time-start={talk.time.start}
+  data-time-end={talk.time.end}
+  style={`--c-base:${color};--c-dark:${dark};--c-darker:${darker};--c-accent:${accent};--c-glow:${glow};`}
+>
+  <div class="cartridge">
+    <div class="case">
+
+      <!-- Front face -->
+      <div class="front">
+        <div class="base tall"></div>
+        <div class="base wide"></div>
+        <div class="linebase"></div>
+        <div class="line one"></div>
+        <div class="line two"></div>
+        <div class="line three"></div>
+        <div class="line four"></div>
+        <div class="leftindent"></div>
+        <div class="rightindent"></div>
+        <div class="oval"></div>
+        <div class="label">
+          <div class="powerup-icon" aria-hidden="true">{icon}</div>
+          <p class="break-title">{talk.title}</p>
+          <div class="energy-bar" aria-label="energy bar">
+            <div class="energy-fill"></div>
+          </div>
+          <div class="label-bottom">
+            <span class="break-label">{label}</span>
+            <span class="rev">{timeLabel}–{endLabel}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back face -->
+      <div class="back">
+        <div class="base tall"></div>
+        <div class="base wide"></div>
+        <div class="line one"></div>
+        <div class="line two"></div>
+        <div class="line three"></div>
+        <div class="line four"></div>
+      </div>
+
+      <!-- Right side -->
+      <div class="rightside">
+        <div class="top"></div>
+        <div class="bottom"></div>
+        <div class="line one"></div>
+        <div class="ceiling one"></div>
+        <div class="floor one"></div>
+        <div class="line two"></div>
+        <div class="ceiling two"></div>
+        <div class="floor two"></div>
+        <div class="line three"></div>
+        <div class="ceiling three"></div>
+        <div class="floor three"></div>
+        <div class="line four"></div>
+        <div class="ceiling four"></div>
+        <div class="floor four"></div>
+      </div>
+
+      <!-- Left side -->
+      <div class="leftside">
+        <div class="bottom"></div>
+        <div class="line one"></div>
+        <div class="ceiling one"></div>
+        <div class="floor one"></div>
+        <div class="line two"></div>
+        <div class="ceiling two"></div>
+        <div class="floor two"></div>
+        <div class="line three"></div>
+        <div class="ceiling three"></div>
+        <div class="floor three"></div>
+        <div class="line four"></div>
+        <div class="ceiling four"></div>
+        <div class="floor four"></div>
+      </div>
+
+      <!-- Top side -->
+      <div class="topside">
+        <div class="left"></div>
+        <div class="right"></div>
+      </div>
+
+      <!-- Bottom side -->
+      <div class="bottomside">
+        <div class="side"></div>
+      </div>
+
+    </div>
+  </div>
+</article>
+
+<style>
+  /* ── Dimensions & colour palette ───────────────────── */
+  .card-wrap {
+    --cw: 196px;
+    --ch: 225px;
+    --cd: 20px;
+    --cd2: 10px;
+
+    /* defaults overridden via inline style per break type */
+    --c-base:    #4a9d5f;
+    --c-dark:    #357248;
+    --c-darker:  #265438;
+    --c-accent:  #b6f0c8;
+    --c-glow:    #4a9d5f;
+  }
+
+  /* ── Cell wrapper ─────────────────────────────────── */
+  .card-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    padding: 24px 36px;
+  }
+
+  /* ── Cartridge container ──────────────────────────── */
+  .cartridge {
+    position: relative;
+    display: inline-block;
+    width: var(--cw);
+    height: var(--ch);
+    perspective: 900px;
+    transform-style: preserve-3d;
+    flex-shrink: 0;
+  }
+
+  .case {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    transform-style: preserve-3d;
+    transform: rotateY(-22deg) rotateX(10deg);
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .card-wrap:hover .case {
+    transform: rotateY(-8deg) rotateX(4deg);
+  }
+
+  /* ── Front / Back ─────────────────────────────────── */
+  .front,
+  .back {
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+  }
+
+  .front .base,
+  .back .base {
+    background-color: var(--c-base);
+    position: absolute;
+  }
+
+  .front .tall,
+  .back .tall {
+    height: 50%;
+    width: 90%;
+    top: 0;
+    left: 0;
+  }
+
+  .front .wide,
+  .back .wide {
+    height: 95%;
+    width: 100%;
+    bottom: 0;
+    right: 0;
+  }
+
+  .front .linebase {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 100%;
+    height: 15%;
+    top: 9%;
+    left: 0;
+  }
+
+  .front .line,
+  .back .line {
+    position: absolute;
+    background-color: var(--c-base);
+    width: 104%;
+    left: -2%;
+    height: calc(15% / 9);
+  }
+
+  .front .leftindent,
+  .front .rightindent {
+    position: absolute;
+    height: 65%;
+    width: 2%;
+    bottom: 0;
+    background-color: var(--c-dark);
+  }
+
+  .front .rightindent {
+    right: 0;
+  }
+
+  .front .oval {
+    position: absolute;
+    width: 75%;
+    height: 15%;
+    background-color: var(--c-dark);
+    border: calc(var(--cw) / 50) solid var(--c-base);
+    border-radius: 9999px;
+    left: calc(12.5% - 2%);
+    top: 7%;
+  }
+
+  /* ── Label (power-up content area) ────────────────── */
+  .front .label {
+    position: absolute;
+    height: calc(var(--cw) * 0.75);
+    width: 70%;
+    bottom: 7%;
+    left: calc(15% - 1%);
+    border: calc(var(--cw) / 100) solid rgba(0, 0, 0, 0.4);
+    border-radius: calc(var(--cw) / 50);
+    overflow: hidden;
+    padding: 8px;
+    background: linear-gradient(160deg, #0d1f0d 0%, #071207 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* ── Power-up icon ─────────────────────────────────── */
+  .powerup-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 6px var(--c-glow));
+    animation: powerup-pulse 2s ease-in-out infinite;
+    image-rendering: pixelated;
+  }
+
+  @keyframes powerup-pulse {
+    0%, 100% { transform: scale(1);    filter: drop-shadow(0 0 4px var(--c-glow)); }
+    50%       { transform: scale(1.12); filter: drop-shadow(0 0 10px var(--c-glow)); }
+  }
+
+  /* ── Break title ───────────────────────────────────── */
+  .break-title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    line-height: 1.2;
+    color: var(--c-accent);
+    text-align: center;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  /* ── Energy bar (pixel-art style) ─────────────────── */
+  .energy-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--c-dark);
+    margin: 2px 0;
+    image-rendering: pixelated;
+    overflow: hidden;
+  }
+
+  .energy-fill {
+    height: 100%;
+    background: var(--c-base);
+    box-shadow: 0 0 4px var(--c-glow);
+    animation: energy-drain 8s linear infinite;
+    transform-origin: left;
+  }
+
+  @keyframes energy-drain {
+    0%   { width: 100%; }
+    100% { width: 10%; }
+  }
+
+  /* ── Bottom row ────────────────────────────────────── */
+  .label-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 4px;
+    margin-top: auto;
+    width: 100%;
+  }
+
+  .break-label {
+    font-family: var(--font-display);
+    font-size: 0.38rem;
+    color: var(--c-accent);
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .rev {
+    font-family: var(--font-display);
+    font-size: 0.38rem;
+    background: var(--c-darker);
+    color: var(--c-accent);
+    padding: 2px 4px;
+    border: 1px solid var(--c-dark);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* ── translateZ for front/back ────────────────────── */
+  .front {
+    transform: translateZ(var(--cd2));
+  }
+
+  .back {
+    transform: translateZ(calc(-1 * var(--cd2)));
+  }
+
+  /* ── Groove line positions ────────────────────────── */
+  .one   { top: calc(9% + (15% / 9) * 1); }
+  .two   { top: calc(9% + (15% / 9) * 3); }
+  .three { top: calc(9% + (15% / 9) * 5); }
+  .four  { top: calc(9% + (15% / 9) * 7); }
+
+  /* ── Right / Left sides ───────────────────────────── */
+  .rightside,
+  .leftside {
+    position: absolute;
+    width: var(--cd);
+    height: 100%;
+    bottom: 0;
+    transform-style: preserve-3d;
+    transform: rotateY(90deg);
+  }
+
+  .rightside {
+    right: calc(-1 * var(--cd2));
+  }
+
+  .leftside {
+    left: calc(-1 * var(--cd2));
+  }
+
+  .rightside .top {
+    position: absolute;
+    background-color: var(--c-darker);
+    width: 100%;
+    height: 5%;
+    transform: translateZ(calc(-1 * var(--cd)));
+  }
+
+  .rightside .bottom,
+  .leftside .bottom {
+    position: absolute;
+    bottom: 0;
+    background-color: var(--c-dark);
+    width: 100%;
+  }
+
+  .rightside .bottom { height: 95%; }
+  .leftside  .bottom { height: 100%; }
+
+  .rightside .line,
+  .leftside .line {
+    position: absolute;
+    background-color: var(--c-darker);
+    height: calc(15% / 9);
+    width: 100%;
+  }
+
+  .rightside .line { transform: translateZ(calc(var(--cw) * 0.02)); }
+  .leftside  .line { transform: translateZ(calc(-1 * var(--cw) * 0.02)); }
+
+  .rightside .floor,
+  .rightside .ceiling,
+  .leftside .floor,
+  .leftside .ceiling {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 100%;
+    height: calc(var(--cw) * 0.04);
+    transform: rotateX(90deg);
+  }
+
+  .rightside .ceiling,
+  .leftside .ceiling {
+    transform: translateY(calc(-1 * var(--ch) * 0.15 / 9)) rotateX(90deg);
+  }
+
+  /* ── Top side ─────────────────────────────────────── */
+  .topside {
+    position: absolute;
+    width: 100%;
+    height: var(--cd);
+    top: calc(-1 * var(--cd2));
+    transform: rotateX(90deg);
+    transform-style: preserve-3d;
+  }
+
+  .topside .left {
+    position: absolute;
+    background-color: var(--c-dark);
+    width: 90%;
+    height: 100%;
+  }
+
+  .topside .right {
+    position: absolute;
+    background-color: var(--c-darker);
+    width: 10%;
+    height: 100%;
+    right: 0;
+    transform: translateZ(calc(-1 * var(--ch) * 0.05));
+  }
+
+  /* ── Bottom side (connector edge) ────────────────── */
+  .bottomside {
+    position: absolute;
+    background-color: #1e1e1e;
+    bottom: calc(-1 * var(--cd2));
+    height: calc(var(--cd) / 2);
+    width: calc(var(--cw) - var(--cd2));
+    transform: rotateX(90deg);
+    border: calc(var(--cw) * 0.025) solid var(--c-darker);
+  }
+</style>

@@ -11,6 +11,8 @@ export const SpeakerSchema = z.object({
   avatarUrl: z.string().url(),
 });
 
+export const BreakCategorySchema = z.enum(['coffee', 'breakfast', 'lunch', 'networking']);
+
 export const TalkSchema = z.object({
   id: z.string().min(1),
   title: z.string().min(1),
@@ -26,6 +28,7 @@ export const TalkSchema = z.object({
 
   // Optional metadata (not part of the canonical schema yet).
   room: z.string().optional(),
+  breakCategory: BreakCategorySchema.optional(),
 });
 
 export const TalksFileSchema = z.object({
@@ -50,6 +53,7 @@ export const AssetsFileSchema = z.object({
 
 export type TalkType = z.infer<typeof TalkTypeSchema>;
 export type TalkLanguage = z.infer<typeof TalkLanguageSchema>;
+export type BreakCategory = z.infer<typeof BreakCategorySchema>;
 export type Speaker = z.infer<typeof SpeakerSchema>;
 export type Talk = z.infer<typeof TalkSchema>;
 export type TalksFile = z.infer<typeof TalksFileSchema>;
