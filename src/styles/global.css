@@ -184,6 +184,7 @@ main {
   font-size: 1.1rem;
   color: #7a5e30;
   flex-shrink: 0;
+  font-variant-emoji: text;
 }
 
 .address-bar {
