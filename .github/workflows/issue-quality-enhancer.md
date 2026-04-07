@@ -2,7 +2,7 @@
 on:
   issues:
     types: [opened]
-    roles: [all]
+    roles: all
 
 permissions:
   issues: read
