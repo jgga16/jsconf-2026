@@ -1141,7 +1141,7 @@ jobs:
   pre_activation:
     runs-on: ubuntu-slim
     outputs:
-      activated: ${{ steps.check_membership.outputs.is_team_member == 'true' }}
+      activated: true
       matched_command: ''
     steps:
       - name: Setup Scripts
